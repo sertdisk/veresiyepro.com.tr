@@ -103,6 +103,27 @@ export function sortByDateDesc<T extends { data: { date: Date } }>(entries: T[])
 export const notDraft = <T extends { data: { draft: boolean } }>(entry: T): boolean =>
   !entry.data.draft;
 
+const trCalendarDay = new Intl.DateTimeFormat('en-CA', {
+  timeZone: 'Europe/Istanbul',
+  year: 'numeric',
+  month: '2-digit',
+  day: '2-digit',
+});
+const calendarDay = (value: Date): string => trCalendarDay.format(value);
+
+/**
+ * Tarihli koleksiyonlarda (releases/blog) yalnızca yayın tarihi gelmiş
+ * içerikleri döndürür. Gelecek tarihli içerikler taslak gibi davranır.
+ * Karşılaştırma Türkiye takvim gününe göre yapılır; UTC saat farkı nedeniyle
+ * "bugün" içeriklerinin erken/geç görünmesi engellenir.
+ */
+export const isPublished = <T extends { data: { draft: boolean; date?: Date } }>(
+  entry: T,
+  now: Date = new Date(),
+): boolean =>
+  !entry.data.draft &&
+  (!entry.data.date || calendarDay(entry.data.date) <= calendarDay(now));
+
 /** Kaba Markdown gövdesinden tahmini okuma süresi (dakika) */
 export function estimateReadingTime(body: string): number {
   const words = body.trim().split(/\s+/).filter(Boolean).length;

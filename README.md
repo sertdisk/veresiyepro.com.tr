@@ -87,7 +87,7 @@ draft: false
 Markdown gövde...
 ```
 
-Sürümler tarihe göre otomatik sıralanır; en yeni sürüm sürüm notları sayfasında tam olarak gösterilir.
+Sürümler tarihe göre otomatik sıralanır; en yeni sürüm sürüm notları sayfasında tam olarak gösterilir. Gelecek tarihli sürümler, tarih gelene kadar taslak gibi davranır ve siteye/sitemap'e dahil edilmez.
 
 ### Yardım makalesi ekleme
 
@@ -138,7 +138,7 @@ Hazır örnek yazı `src/content/blog/_ornek-haber.md` dosyasındadır. Blog kol
 src/content/blog/_ornek-haber.md  →  src/content/blog/ornek-haber.md
 ```
 
-Bir yazı yayında olduğu sürece Blog menüde görünür ve `/blog/` indeksi oluşur. Tüm yazılar `draft: true` ise blog yine kapalı kalır.
+Bir yazı yayında olduğu sürece Blog menüde görünür ve `/blog/` indeksi oluşur. Tüm yazılar `draft: true` ise blog yine kapalı kalır. Gelecek tarihli yazılar da tarih gelene kadar yayınlanmaz; yalnızca gelecek tarihli yazı varsa blog kapalı kalır.
 
 ## Yayından önce değiştirilmesi gerekenler
 

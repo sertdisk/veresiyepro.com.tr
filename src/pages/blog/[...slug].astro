@@ -9,7 +9,7 @@ import Toc from '../../components/ui/Toc.astro';
 import PostCard from '../../components/content/PostCard.astro';
 import Badge from '../../components/ui/Badge.astro';
 import Button from '../../components/ui/Button.astro';
-import { formatDateLong, sortByDateDesc } from '../../utils/format';
+import { formatDateLong, isPublished, sortByDateDesc } from '../../utils/format';
 import { SITE } from '../../data/site';
 
 export type Props = {
@@ -21,7 +21,7 @@ export type Props = {
 // Yazı yoksa getStaticPaths boş dizi döner; /blog/ rotası hiç üretilmez
 // (Header.astro da bu durumda Blog bağlantısını gizler).
 export async function getStaticPaths() {
-  const published = sortByDateDesc(await getCollection('blog', ({ data }) => data.draft !== true));
+  const published = sortByDateDesc(await getCollection('blog', isPublished));
   if (published.length === 0) return [];
   return [
     { params: { slug: undefined }, props: { index: true } satisfies Props },
@@ -35,7 +35,7 @@ export async function getStaticPaths() {
 const { index, post } = Astro.props as Props;
 
 const posts = index
-  ? sortByDateDesc(await getCollection('blog', ({ data }) => data.draft !== true))
+  ? sortByDateDesc(await getCollection('blog', isPublished))
   : [];
 
 const rendered = post ? await render(post) : null;

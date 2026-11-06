@@ -6,10 +6,10 @@ import Breadcrumbs from '../../components/ui/Breadcrumbs.astro';
 import Prose from '../../components/ui/Prose.astro';
 import Toc from '../../components/ui/Toc.astro';
 import Badge from '../../components/ui/Badge.astro';
-import { formatDateLong, sortByDateDesc } from '../../utils/format';
+import { formatDateLong, isPublished, sortByDateDesc } from '../../utils/format';
 
 export async function getStaticPaths() {
-  const releases = await getCollection('releases', ({ data }) => data.draft !== true);
+  const releases = await getCollection('releases', isPublished);
   return releases.map((release) => ({
     params: { slug: release.id },
     props: { release },
@@ -34,7 +34,7 @@ const {
   noindex,
 } = release.data;
 
-const all = sortByDateDesc(await getCollection('releases', ({ data }) => data.draft !== true));
+const all = sortByDateDesc(await getCollection('releases', isPublished));
 const index = all.findIndex((r) => r.id === release.id);
 const previous = index < all.length - 1 ? all[index + 1] : null;
 

@@ -3,8 +3,9 @@ import { getCollection } from 'astro:content';
 import SiteBrand from './SiteBrand.astro';
 import Button from '../ui/Button.astro';
 import { HEADER_NAV, LINKS, type NavLink } from '../../data/site';
+import { isPublished } from '../../utils/format';
 
-const posts = await getCollection('blog', ({ data }) => data.draft !== true);
+const posts = await getCollection('blog', isPublished);
 const blogHref = '/blog/';
 const navLinks: NavLink[] = posts.length
   ? [...HEADER_NAV.slice(0, 4), { label: 'Blog', href: blogHref }, ...HEADER_NAV.slice(4)]

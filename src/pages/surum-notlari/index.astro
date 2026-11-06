@@ -9,9 +9,9 @@ import Badge from '../../components/ui/Badge.astro';
 import Button from '../../components/ui/Button.astro';
 import EmptyState from '../../components/ui/EmptyState.astro';
 import Breadcrumbs from '../../components/ui/Breadcrumbs.astro';
-import { formatDateLong, sortByDateDesc } from '../../utils/format';
+import { formatDateLong, isPublished, sortByDateDesc } from '../../utils/format';
 
-const releases = sortByDateDesc(await getCollection('releases', ({ data }) => data.draft !== true));
+const releases = sortByDateDesc(await getCollection('releases', isPublished));
 const latest: CollectionEntry<'releases'> | undefined = releases[0];
 const previous = releases.slice(1);
 
