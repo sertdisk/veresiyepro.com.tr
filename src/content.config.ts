@@ -21,6 +21,9 @@ const releases = defineCollection({
     highlights: z.array(z.string()).default([]),
     image: z.string().optional(),
     imageAlt: z.string().optional(),
+    /** Görselin gerçek piksel boyutları; CLS önlemek için önerilir (varsayılan 1200×675). */
+    imageWidth: z.number().int().positive().optional(),
+    imageHeight: z.number().int().positive().optional(),
     canonicalURL: z.string().optional(),
     noindex: z.boolean().default(false),
     draft: z.boolean().default(false),

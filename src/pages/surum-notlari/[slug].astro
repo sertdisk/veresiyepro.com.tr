@@ -28,6 +28,8 @@ const {
   highlights,
   image,
   imageAlt,
+  imageWidth,
+  imageHeight,
   canonicalURL,
   noindex,
 } = release.data;
@@ -100,7 +102,13 @@ const crumbs = [
         {
           image && (
             <figure>
-              <img src={image} alt={imageAlt ?? `Veresiye Pro ${version} ekran görseli`} loading="lazy" />
+              <img
+                src={image}
+                alt={imageAlt ?? `Veresiye Pro ${version} ekran görseli`}
+                width={imageWidth ?? 1200}
+                height={imageHeight ?? 675}
+                loading="lazy"
+              />
             </figure>
           )
         }

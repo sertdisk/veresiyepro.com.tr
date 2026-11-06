@@ -123,8 +123,10 @@ Görseller mutlaka anlamlı `alt` metniyle birlikte kullanılmalıdır.
 Markdown içinde boyut vermek için HTML kullanın:
 
 ```html
-<img src="/images/help/ornek-ekran.svg" alt="Cari işlemleri ekranına örnek şema" width="720" height="420" loading="lazy">
+<img src="/images/help/ornek-ekran.svg" alt="Cari işlemlerine örnek şema" width="720" height="420" loading="lazy">
 ```
+
+Sürüm notu görseli eklerseniz frontmatter'da `image`, `imageAlt` ile birlikte `imageWidth` ve `imageHeight` alanlarını da verin (varsayılan 1200×675).
 
 ## Blog bölümü
 
