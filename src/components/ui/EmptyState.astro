@@ -1,0 +1,36 @@
+---
+interface Props {
+  title?: string;
+  text?: string;
+}
+
+const { title = 'Henüz içerik yok', text } = Astro.props;
+---
+
+<div class="empty-state">
+  <p class="empty-state__title">{title}</p>
+  {text && <p class="empty-state__text">{text}</p>}
+  <slot />
+</div>
+
+<style>
+  .empty-state {
+    padding: var(--space-8) var(--space-5);
+    text-align: center;
+    border: 1px dashed var(--color-border);
+    border-radius: var(--radius-lg);
+    background: var(--color-surface-alt);
+  }
+
+  .empty-state__title {
+    color: var(--color-ink);
+    font-size: var(--text-h3);
+    margin-bottom: var(--space-2);
+  }
+
+  .empty-state__text {
+    color: var(--color-muted);
+    max-width: 45ch;
+    margin-inline: auto;
+  }
+</style>

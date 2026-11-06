@@ -1,0 +1,46 @@
+---
+import MarketingLayout from '../layouts/MarketingLayout.astro';
+import Hero from '../components/marketing/Hero.astro';
+import TrustStrip from '../components/marketing/TrustStrip.astro';
+import PendingSpotlight from '../components/marketing/PendingSpotlight.astro';
+import OldVsNew from '../components/marketing/OldVsNew.astro';
+import FeatureGrid from '../components/marketing/FeatureGrid.astro';
+import QrSpotlight from '../components/marketing/QrSpotlight.astro';
+import RadarSection from '../components/marketing/RadarSection.astro';
+import SecuritySection from '../components/marketing/SecuritySection.astro';
+import PricingSection from '../components/marketing/PricingSection.astro';
+import TestimonialsSection from '../components/marketing/TestimonialsSection.astro';
+import FaqSection from '../components/marketing/FaqSection.astro';
+import FinalCta from '../components/marketing/FinalCta.astro';
+import { getCollection } from 'astro:content';
+import { notDraft, sortByOrder } from '../utils/format';
+import { SITE } from '../data/site';
+import { FAQ_ITEMS } from '../data/marketing';
+
+const allTestimonials = sortByOrder(
+  await getCollection('testimonials', (entry) => notDraft(entry)),
+);
+const featuredTestimonials = allTestimonials.filter((t) => t.data.featured).slice(0, 3);
+const testimonials =
+  featuredTestimonials.length > 0 ? featuredTestimonials : allTestimonials.slice(0, 3);
+---
+
+<MarketingLayout
+  title={SITE.title}
+  description={SITE.description}
+  structuredData={{ softwareApplication: true, faq: FAQ_ITEMS }}
+>
+  <Hero />
+  <TrustStrip />
+
+  <div class="reveal"><PendingSpotlight /></div>
+  <div class="reveal"><OldVsNew /></div>
+  <div class="reveal"><FeatureGrid /></div>
+  <div class="reveal"><QrSpotlight /></div>
+  <div class="reveal"><RadarSection /></div>
+  <div class="reveal"><SecuritySection /></div>
+  <div class="reveal"><PricingSection /></div>
+  <div class="reveal"><TestimonialsSection testimonials={testimonials} /></div>
+  <div class="reveal"><FaqSection /></div>
+  <div class="reveal"><FinalCta /></div>
+</MarketingLayout>

@@ -1,0 +1,152 @@
+---
+import type { CollectionEntry } from 'astro:content';
+import { HELP_CATEGORIES, HELP_CATEGORY_ORDER, groupHelpByCategory } from '../../utils/format';
+
+interface Props {
+  articles: CollectionEntry<'help'>[];
+  currentId?: string;
+}
+
+const { articles, currentId } = Astro.props;
+
+const groups = groupHelpByCategory(articles);
+---
+
+<nav class="help-sidebar" aria-label="Yardım makaleleri">
+  <div class="help-sidebar__wrapper">
+    <details class="help-sidebar__mobile" data-sidebar-details>
+      <summary>Tüm Makaleler</summary>
+      <div class="help-sidebar__groups">
+        {
+          HELP_CATEGORY_ORDER.map((category) => {
+            const list = groups.get(category) ?? [];
+            if (list.length === 0) return null;
+            return (
+              <section class="help-sidebar__group">
+                <p class="help-sidebar__group-title">{HELP_CATEGORIES[category]}</p>
+                <ul>
+                  {list.map((article) => (
+                    <li>
+                      <a
+                        href={`/yardim/${article.id}/`}
+                        class:list={[article.id === currentId && 'is-current']}
+                        aria-current={article.id === currentId ? 'page' : undefined}
+                      >
+                        {article.data.title}
+                      </a>
+                    </li>
+                  ))}
+                </ul>
+              </section>
+            );
+          })
+        }
+      </div>
+    </details>
+    <div class="help-sidebar__desktop">
+      {
+        HELP_CATEGORY_ORDER.map((category) => {
+          const list = groups.get(category) ?? [];
+          if (list.length === 0) return null;
+          return (
+            <section class="help-sidebar__group">
+              <p class="help-sidebar__group-title">{HELP_CATEGORIES[category]}</p>
+              <ul>
+                {list.map((article) => (
+                  <li>
+                    <a
+                      href={`/yardim/${article.id}/`}
+                      class:list={[article.id === currentId && 'is-current']}
+                      aria-current={article.id === currentId ? 'page' : undefined}
+                    >
+                      {article.data.title}
+                    </a>
+                  </li>
+                ))}
+              </ul>
+            </section>
+          );
+        })
+      }
+    </div>
+  </div>
+</nav>
+
+<style is:global>
+  .help-sidebar {
+    font-size: var(--text-sm);
+  }
+
+  .help-sidebar__group {
+    margin-bottom: 1.5rem;
+  }
+
+  .help-sidebar__group-title {
+    font-size: var(--text-xs);
+    text-transform: uppercase;
+    letter-spacing: 0.07em;
+    color: var(--color-primary);
+    margin-bottom: 0.5rem;
+    font-weight: 650;
+  }
+
+  .help-sidebar__group ul {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    display: grid;
+    gap: 0.25rem;
+  }
+
+  .help-sidebar__group a {
+    color: var(--color-muted);
+    text-decoration: none;
+    display: block;
+    padding: 0.3rem 0.5rem;
+    border-radius: var(--radius-sm);
+    border-left: 2px solid transparent;
+  }
+
+  .help-sidebar__group a:hover,
+  .help-sidebar__group a:focus-visible {
+    color: var(--color-primary);
+    background: var(--color-surface-alt);
+  }
+
+  .help-sidebar__group a.is-current {
+    color: var(--color-primary);
+    font-weight: 700;
+    border-left-color: var(--color-primary);
+    background: var(--color-surface-alt);
+  }
+
+  @media (min-width: 961px) {
+    .help-sidebar__mobile {
+      display: none;
+    }
+  }
+
+  @media (max-width: 960px) {
+    .help-sidebar__desktop {
+      display: none;
+    }
+
+    .help-sidebar__mobile {
+      border: 1px solid var(--color-border);
+      border-radius: var(--radius-md);
+      background: var(--color-surface-alt);
+      margin-bottom: 1.5rem;
+    }
+
+    .help-sidebar__mobile summary {
+      cursor: pointer;
+      padding: 0.75rem 1rem;
+      font-weight: 700;
+      color: var(--color-ink);
+    }
+
+    .help-sidebar__mobile .help-sidebar__groups {
+      padding: 0 1rem 1rem;
+    }
+  }
+</style>

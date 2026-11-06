@@ -1,0 +1,182 @@
+---
+import type { CollectionEntry } from 'astro:content';
+import { getCollection, render } from 'astro:content';
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import PageHero from '../../components/ui/PageHero.astro';
+import ReleaseCard from '../../components/content/ReleaseCard.astro';
+import Prose from '../../components/ui/Prose.astro';
+import Badge from '../../components/ui/Badge.astro';
+import Button from '../../components/ui/Button.astro';
+import EmptyState from '../../components/ui/EmptyState.astro';
+import Breadcrumbs from '../../components/ui/Breadcrumbs.astro';
+import { formatDateLong, sortByDateDesc } from '../../utils/format';
+
+const releases = sortByDateDesc(await getCollection('releases', ({ data }) => data.draft !== true));
+const latest: CollectionEntry<'releases'> | undefined = releases[0];
+const previous = releases.slice(1);
+
+const latestContent = latest ? await render(latest) : null;
+const LatestContent = latestContent?.Content ?? null;
+
+const crumbs = [
+  { label: 'Ana Sayfa', href: '/' },
+  { label: 'Sürüm Notları' },
+];
+---
+
+<BaseLayout
+  title="Sürüm Notları"
+  description="Veresiye Pro Windows veresiye programının sürüm geçmişi ve yenilikleri."
+  structuredData={{
+    breadcrumbs: crumbs.map(({ label, href }) => ({ name: label, url: href })),
+  }}
+>
+  <PageHero
+    eyebrow="Güncel Sürüm"
+    title="Sürüm Notları"
+    description="Veresiye Pro'nun son sürümünde neler yeni, neler gelişti? Tüm versiyon geçmişi bu sayfada."
+  />
+  <div class="container section">
+    <Breadcrumbs items={crumbs} />
+
+    {
+      latest && latestContent && LatestContent ? (
+        <article class="latest-release">
+          <header class="latest-release__head">
+            <Badge tone="primary">{`v${latest.data.version}`}</Badge>
+            <time datetime={latest.data.date.toISOString()}>
+              {formatDateLong(latest.data.date)}
+            </time>
+            <Badge tone="gold">Güncel Sürüm</Badge>
+          </header>
+          <h2 class="latest-release__title">{latest.data.title}</h2>
+          {latest.data.summary && <p class="latest-release__summary">{latest.data.summary}</p>}
+          {
+            latest.data.highlights.length > 0 && (
+              <section class="latest-release__highlights" aria-label="Öne çıkan yenilikler">
+                <h3>Öne Çıkanlar</h3>
+                <ul>
+                  {latest.data.highlights.map((h) => (
+                    <li>{h}</li>
+                  ))}
+                </ul>
+              </section>
+            )
+          }
+          <Prose>
+            <LatestContent />
+          </Prose>
+        </article>
+      ) : (
+        <EmptyState
+          title="Henüz yayında sürüm notu yok"
+          text="İlk sürüm notu eklendiğinde bu sayfada görünecek."
+        >
+          <p>
+            <Button href="/" variant="secondary">Ana sayfaya dön</Button>
+          </p>
+        </EmptyState>
+      )
+    }
+
+    {
+      previous.length > 0 && (
+        <section class="section previous-releases">
+          <h2 class="previous-releases__title">Önceki Sürümler</h2>
+          <p class="previous-releases__desc">
+            Versiyon geçmişi — toplam {releases.length} sürüm, en yeni {latest?.data.version}.
+          </p>
+          <div class="card-grid">
+            {previous.map((release) => (
+              <ReleaseCard release={release} />
+            ))}
+          </div>
+        </section>
+      )
+    }
+  </div>
+</BaseLayout>
+
+<style>
+  .latest-release__head {
+    display: flex;
+    align-items: center;
+    gap: var(--space-3);
+    color: var(--color-muted);
+    font-size: var(--text-sm);
+    flex-wrap: wrap;
+  }
+
+  .latest-release__title {
+    color: var(--color-ink);
+    font-size: var(--text-h2);
+    margin-top: var(--space-3);
+    line-height: var(--line-height-tight);
+  }
+
+  .latest-release__summary {
+    color: var(--color-muted);
+    font-size: var(--text-lg);
+    max-width: 68ch;
+    margin-top: var(--space-2);
+  }
+
+  .latest-release__highlights {
+    margin-block: var(--space-5);
+    background: rgb(29 78 216 / 0.04);
+    border-left: 4px solid var(--color-primary);
+    border-radius: var(--radius-md);
+    padding: var(--space-5);
+  }
+
+  .latest-release__highlights h3 {
+    font-size: var(--text-sm);
+    text-transform: uppercase;
+    letter-spacing: 0.06em;
+    color: var(--color-primary);
+    margin-bottom: var(--space-2);
+  }
+
+  .latest-release__highlights ul {
+    list-style: none;
+    padding: 0;
+    display: grid;
+    gap: var(--space-2);
+    font-size: var(--text-sm);
+    color: var(--color-ink);
+  }
+
+  .latest-release__highlights li {
+    padding-left: 1.5rem;
+    position: relative;
+  }
+
+  .latest-release__highlights li::before {
+    content: '→';
+    position: absolute;
+    left: 0;
+    color: var(--color-primary);
+    font-weight: 700;
+  }
+
+  .previous-releases {
+    margin-top: var(--space-8);
+  }
+
+  .previous-releases__title {
+    font-size: var(--text-h2);
+    color: var(--color-ink);
+    margin-bottom: var(--space-2);
+  }
+
+  .previous-releases__desc {
+    color: var(--color-muted);
+    margin-bottom: var(--space-5);
+    font-size: var(--text-sm);
+  }
+
+  .section,
+  .container.section {
+    padding-top: var(--space-6);
+  }
+</style>

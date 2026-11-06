@@ -1,0 +1,224 @@
+---
+import SectionHeading from '../ui/SectionHeading.astro';
+import Icon from './Icon.astro';
+import { FEATURES } from '../../data/marketing';
+---
+
+<section class="features" id="ozellikler">
+  <div class="container">
+    <div class="features__head">
+      <SectionHeading
+        index="04"
+        eyebrow="Tüm ticari süreçler"
+        title="Bir veresiye programından beklediğinizden çok daha fazlası"
+        description="Müşterilerinizi, tedarikçilerinizi ve personelinizi ekleyin; veresiye, taksit, çek, senet ve tüm finansal işlemleri tek programda yönetin."
+      />
+      <p class="features__count" aria-hidden="true">
+        <span>06</span>
+        çekirdek yetenek
+      </p>
+    </div>
+
+    <div class="features__grid">
+      {
+        FEATURES.map((feature, i) => (
+          <article
+            class:list={['features__card', i === FEATURES.length - 1 && 'features__card--accent']}
+          >
+            <div class="features__card-top">
+              <span class="features__icon" aria-hidden="true">
+                <Icon name={feature.icon} size={21} />
+              </span>
+              <span class="features__index" aria-hidden="true">
+                {String(i + 1).padStart(2, '0')}
+              </span>
+            </div>
+            <h3 class="features__title">{feature.title}</h3>
+            <p class="features__text">{feature.text}</p>
+          </article>
+        ))
+      }
+    </div>
+  </div>
+</section>
+
+<style>
+  .features {
+    position: relative;
+    padding-block: var(--space-9);
+    background: var(--color-surface-alt);
+    border-block: 1px solid var(--color-border);
+  }
+
+  .features__head {
+    display: flex;
+    align-items: flex-end;
+    justify-content: space-between;
+    gap: var(--space-6);
+  }
+
+  .features__head :global(.section-heading) {
+    margin-bottom: var(--space-7);
+  }
+
+  .features__count {
+    flex: none;
+    display: grid;
+    justify-items: end;
+    gap: 0.15rem;
+    padding-bottom: var(--space-7);
+    font-size: var(--text-xs);
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+    color: var(--color-muted);
+    line-height: 1.4;
+  }
+
+  .features__count span {
+    font-family: var(--font-display);
+    font-size: 1.6rem;
+    font-weight: 600;
+    letter-spacing: -0.04em;
+    color: var(--color-primary);
+    line-height: 1;
+  }
+
+  .features__grid {
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: var(--space-4);
+  }
+
+  .features__card {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    gap: 0.6rem;
+    padding: var(--space-5);
+    border: 1px solid var(--color-border);
+    border-radius: var(--radius-lg);
+    background: var(--color-surface);
+    box-shadow: var(--shadow-xs);
+    transition:
+      transform var(--duration-base) var(--ease-out),
+      box-shadow var(--duration-base) var(--ease-out),
+      border-color var(--duration-base) var(--ease-out);
+  }
+
+  .features__card:hover {
+    transform: translateY(-3px);
+    border-color: rgb(29 78 216 / 0.4);
+    box-shadow: var(--shadow-md);
+  }
+
+  .features__card-top {
+    display: flex;
+    align-items: flex-start;
+    justify-content: space-between;
+    margin-bottom: 0.35rem;
+  }
+
+  .features__icon {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 42px;
+    height: 42px;
+    border-radius: 12px;
+    background: linear-gradient(180deg, #fff, var(--color-blue-050));
+    border: 1px solid var(--color-blue-100);
+    color: var(--color-primary);
+    box-shadow: inset 0 1px 0 #fff;
+    transition:
+      background-color var(--duration-base) var(--ease-out),
+      color var(--duration-base) var(--ease-out);
+  }
+
+  .features__card:hover .features__icon {
+    background: linear-gradient(160deg, var(--color-navy-800), var(--color-navy-950));
+    border-color: var(--color-navy-800);
+    color: var(--color-cyan-300);
+  }
+
+  .features__index {
+    font-family: var(--font-display);
+    font-size: 0.75rem;
+    font-weight: 500;
+    letter-spacing: 0.06em;
+    color: var(--color-border-strong);
+  }
+
+  .features__title {
+    font-size: 1.0625rem;
+    line-height: 1.32;
+    color: var(--color-ink);
+    letter-spacing: -0.02em;
+    text-wrap: balance;
+  }
+
+  .features__text {
+    font-size: var(--text-sm);
+    line-height: 1.6;
+    color: var(--color-muted);
+  }
+
+  /* ---- Vurgulu kart ---- */
+  .features__card--accent {
+    background:
+      radial-gradient(280px 160px at 100% 0%, rgb(6 182 212 / 0.2), transparent 65%),
+      linear-gradient(150deg, #10265a, #081838);
+    border-color: rgb(255 255 255 / 0.1);
+    box-shadow: var(--shadow-md);
+  }
+
+  .features__card--accent .features__icon {
+    background: rgb(255 255 255 / 0.08);
+    border-color: rgb(255 255 255 / 0.18);
+    color: var(--color-cyan-300);
+  }
+
+  .features__card--accent:hover {
+    border-color: rgb(6 182 212 / 0.5);
+  }
+
+  .features__card--accent:hover .features__icon {
+    background: rgb(6 182 212 / 0.18);
+    border-color: rgb(6 182 212 / 0.4);
+  }
+
+  .features__card--accent .features__title {
+    color: #fff;
+  }
+
+  .features__card--accent .features__text {
+    color: rgb(226 234 248 / 0.72);
+  }
+
+  .features__card--accent .features__index {
+    color: rgb(255 255 255 / 0.28);
+  }
+
+  @media (max-width: 980px) {
+    .features__grid {
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+
+    .features__head {
+      display: block;
+    }
+
+    .features__count {
+      display: none;
+    }
+  }
+
+  @media (max-width: 640px) {
+    .features__grid {
+      grid-template-columns: 1fr;
+    }
+
+    .features__card {
+      padding: var(--space-5) var(--space-4);
+    }
+  }
+</style>

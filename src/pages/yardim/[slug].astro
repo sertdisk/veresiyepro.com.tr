@@ -1,0 +1,62 @@
+---
+import { getCollection, render, type CollectionEntry } from 'astro:content';
+import HelpLayout from '../../layouts/HelpLayout.astro';
+import {
+  HELP_CATEGORIES,
+  estimateReadingTime,
+  sortByOrder,
+} from '../../utils/format';
+
+export async function getStaticPaths() {
+  const articles = await getCollection('help', ({ data }) => data.draft !== true);
+  return articles.map((article) => ({
+    params: { slug: article.id },
+    props: { article },
+  }));
+}
+
+const { article } = Astro.props as { article: CollectionEntry<'help'> };
+const { Content, headings } = await render(article);
+const { title, description, category, updated, keywords, image, imageAlt, canonicalURL, noindex } =
+  article.data;
+
+const allArticles = sortByOrder(
+  await getCollection('help', ({ data }) => data.draft !== true),
+);
+
+// Aynı kategorideki önceki/sonraki makaleler
+const sameCategory = allArticles.filter((a) => a.data.category === category);
+const catIndex = sameCategory.findIndex((a) => a.id === article.id);
+const prevArticle = catIndex > 0 ? sameCategory[catIndex - 1] : null;
+const nextArticle = catIndex < sameCategory.length - 1 ? sameCategory[catIndex + 1] : null;
+
+const crumbs = [
+  { label: 'Ana Sayfa', href: '/' },
+  { label: 'Yardım', href: '/yardim/' },
+  { label: HELP_CATEGORIES[category], href: `/yardim/#${category}` },
+  { label: title },
+];
+
+const readingTime = estimateReadingTime(article.body ?? '');
+---
+
+<HelpLayout
+  title={title}
+  description={description}
+  categoryLabel={HELP_CATEGORIES[category]}
+  updated={updated}
+  readingTime={readingTime}
+  keywords={keywords}
+  crumbs={crumbs}
+  headings={headings}
+  articles={allArticles}
+  currentId={article.id}
+  prevArticle={prevArticle}
+  nextArticle={nextArticle}
+  image={image}
+  imageAlt={imageAlt}
+  canonicalURL={canonicalURL}
+  noindex={noindex}
+>
+  <Content />
+</HelpLayout>

@@ -1,0 +1,49 @@
+# Veresiye Pro
+
+> Veresiye Pro, küçük işletmeler ve esnaflar için geliştirilen, Windows 10 ve Windows 11 üzerinde çalışan offline-first veresiye ve cari hesap takip programıdır. İşlem geçmişini öne çıkarmak yerine gecikmiş ve bugün yapılması gereken işlemlere odaklanır.
+
+Canonical: https://veresiyepro.com.tr/
+Site haritası: https://veresiyepro.com.tr/sitemap-index.xml
+Son güncelleme: 2026-11-06
+Ürün türü: Windows masaüstü uygulaması (ticari yazılım)
+Hedef kitle: Esnaf, market, bakkal, tedarikçi, toptancı ve küçük işletmeler
+
+## Ürün tanımı
+
+Veresiye Pro, veresiye defteri veya Excel tablosu yerine kullanılan bir Windows masaüstü uygulamasıdır. Müşteri, tedarikçi ve personel carilerini tek yerde tutar; vadeli, taksitli ve tekrarlayan veresiye işlemlerini takip eder. Ana ekranda ve kişi sayfasında öncelikle gecikmiş ve bugün yapılması gereken işlemleri listeler.
+
+Uygulama offline-first çalışır: veresiye kayıtları kullanıcının bilgisayarındaki şifreli yerel veritabanında tutulur ve internet kesintisinde temel işlemler devam eder. Lisans süresi sona erse dahi kullanıcı mevcut verilerine erişebilir ve verilerini dışa aktarabilir.
+
+## Doğrulanmış temel özellikler
+
+- Akıllı bekleyen işlemler listesi: geciken ve bugün vadesi gelen işlemler ana ekranda ve kişi sayfasında önceliklendirilir.
+- Vadesiz, vadeli ve taksitli veresiye takibi.
+- Tekrarlayan veresiye işlemleri (aidat, fatura gibi periyodik kayıtlar).
+- Limitsiz müşteri, tedarikçi ve personel carisi; çift yönlü cari bakiye ve mahsuplaşma.
+- Nakit, POS, kredi kartı, EFT/havale ve çek ile tahsilat/ödeme kaydı.
+- Alınan/verilen çek, senet ve satış sözleşmesi dökümleri.
+- QR kod ile telefondan WhatsApp mesajı, SMS veya arama başlatma; harici SMS paketi veya gateway ücreti yoktur.
+- Cari ekranında vadeli/vadesiz dağılım, bakiye trendi ve risk skoru.
+- 5 boyutlu finansal radar: yüksek bakiye, hızlı artış, geciken, uzayan/hareketsiz ve gelecek nakit akışı.
+- Otomatik yerel yedekleme ve şifreli sunucu bulut yedeği.
+- Windows 10 ve Windows 11 uyumluluğu.
+
+## Fiyatlandırma
+
+- İlk yıl premium lisans: 5.000 TL / yıl
+- Yıllık yenileme: %40 indirimle 3.000 TL / yıl
+
+## Önemli sayfalar
+
+- [Ana sayfa](https://veresiyepro.com.tr/): ürün tanıtımı, özellikler, fiyat ve SSS
+- [Sürüm notları](https://veresiyepro.com.tr/surum-notlari/): kullanıcı odaklı sürüm geçmişi
+- [Yardım merkezi](https://veresiyepro.com.tr/yardim/): kurulum ve kullanım kılavuzları
+- [Referanslar](https://veresiyepro.com.tr/referanslar/): kullanıcı deneyimleri (şu an örnek içerik)
+- [Yasal belgeler](https://veresiyepro.com.tr/yasal/): KVKK, gizlilik, çerez ve kullanım koşulları
+- [Hakkımızda](https://veresiyepro.com.tr/hakkimizda/): ürün yaklaşımı ve hedef kitle
+
+## Notlar
+
+- Bu dosya bir sıralama garantisi veya özel bir GEO standardı değildir; kamuya açık ürün bilgisinin makine tarafından okunabilir bir özetidir.
+- Referanslar bölümündeki örnek yorumlar yayın öncesi gerçek, izinli kullanıcı deneyimleriyle değiştirilmelidir.
+- Yasal metinlerdeki şirket bilgileri yayın öncesi doldurulmalıdır.

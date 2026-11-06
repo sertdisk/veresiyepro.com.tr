@@ -1,0 +1,31 @@
+---
+interface TocHeading {
+  depth: number;
+  slug: string;
+  text: string;
+}
+
+interface Props {
+  headings: TocHeading[];
+}
+
+const { headings } = Astro.props;
+
+// Yalnızca ikinci ve üçüncü düzey başlıklar; ilk h2 birden fazlaysa tümü
+const levels = headings.filter((h) => h.depth === 2 || h.depth === 3);
+---
+
+{
+  levels.length >= 2 && (
+    <nav class="toc" aria-label="Sayfa içindekiler">
+      <p class="toc__title">İçindekiler</p>
+      <ol>
+        {levels.map((h) => (
+          <li class={`toc--level-${h.depth}`}>
+            <a href={`#${h.slug}`}>{h.text}</a>
+          </li>
+        ))}
+      </ol>
+    </nav>
+  )
+}

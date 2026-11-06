@@ -1,0 +1,89 @@
+---
+import { getCollection } from 'astro:content';
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import PageHero from '../../components/ui/PageHero.astro';
+import Breadcrumbs from '../../components/ui/Breadcrumbs.astro';
+import SectionHeading from '../../components/ui/SectionHeading.astro';
+import EmptyState from '../../components/ui/EmptyState.astro';
+import Button from '../../components/ui/Button.astro';
+import {
+  HELP_CATEGORIES,
+  HELP_CATEGORY_ORDER,
+  formatDateShort,
+  groupHelpByCategory,
+} from '../../utils/format';
+import { LINKS } from '../../data/site';
+
+const articles = (await getCollection('help', ({ data }) => data.draft !== true));
+const groups = groupHelpByCategory(articles);
+const total = articles.length;
+const crumbs = [
+  { label: 'Ana Sayfa', href: '/' },
+  { label: 'Yardım Merkezi' },
+];
+---
+
+<BaseLayout
+  title="Yardım Merkezi"
+  description="Veresiye Pro başlangıç ve kurulum, cari işlemleri, vadeli/taksitli veresiye, tahsilat ve yedekleme konularında adım adım kılavuzlar."
+  structuredData={{
+    breadcrumbs: crumbs.map(({ label, href }) => ({ name: label, url: href })),
+  }}
+>
+  <PageHero
+    eyebrow="Nasıl Yapılır?"
+    title="Veresiye Pro Yardım Merkezi"
+    description="Veresiye programını ilk açtığınız andan ileri seviye kullanıma kadar, konulara göre düzenlenmiş güncel kılavuzlar."
+    meta={total > 0 ? `Toplam ${total} makale · Tümü son sürüme göre günceldir.` : undefined}
+  />
+
+  <div class="container section">
+    <Breadcrumbs items={crumbs} />
+    {
+      total === 0 ? (
+        <EmptyState
+          title="Yardım makalesi henüz yayında değil"
+          text="Makaleler hazırlandığında bu sayfa güncellenecek. Sorunuzu bize iletmek için destek e-postamıza yazabilirsiniz."
+        >
+          <p>
+            <Button variant="secondary" href={`mailto:${LINKS.contactEmail}`}>Destek ile iletişim</Button>
+          </p>
+        </EmptyState>
+      ) : (
+        HELP_CATEGORY_ORDER.map((category) => {
+          const list = groups.get(category) ?? [];
+          if (list.length === 0) return null;
+          return (
+            <section class="help-category">
+              <SectionHeading
+                id={category}
+                eyebrow={`${list.length} makale`}
+                title={HELP_CATEGORIES[category]}
+              />
+              <div class="card-grid">
+                {list.map((article) => (
+                  <a href={`/yardim/${article.id}/`} class="card">
+                    <span class="card__title">{article.data.title}</span>
+                    <p class="card__text">{article.data.description}</p>
+                    <p class="card__meta">
+                      Güncelleme:
+                      <time datetime={article.data.updated.toISOString()}>
+                        {formatDateShort(article.data.updated)}
+                      </time>
+                    </p>
+                  </a>
+                ))}
+              </div>
+            </section>
+          );
+        })
+      )
+    }
+  </div>
+</BaseLayout>
+
+<style>
+  .help-category {
+    margin-bottom: var(--space-8);
+  }
+</style>

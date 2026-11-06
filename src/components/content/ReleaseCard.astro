@@ -1,0 +1,52 @@
+---
+import type { CollectionEntry } from 'astro:content';
+import Badge from '../ui/Badge.astro';
+import { formatDateLong } from '../../utils/format';
+
+interface Props {
+  release: CollectionEntry<'releases'>;
+}
+
+const { release } = Astro.props;
+const { title, version, date, summary } = release.data;
+---
+
+<article class="card release-card">
+  <div class="release-card__head">
+    <Badge tone="primary">v{version}</Badge>
+    <time datetime={date.toISOString()}>{formatDateLong(date)}</time>
+  </div>
+  <h3 class="card__title">
+    <a href={`/surum-notlari/${release.id}/`}>{title}</a>
+  </h3>
+  {
+    summary && (
+      <p class="card__text">
+        {summary.length >= 240 ? `${summary.slice(0, 240).trimEnd()}…` : summary}{' '}
+      </p>
+    )
+  }
+  <p class="card__meta">
+    <a href={`/surum-notlari/${release.id}/`}>Tam sürüm notlarını okuyun →</a>
+  </p>
+</article>
+
+<style>
+  .release-card__head {
+    display: flex;
+    align-items: center;
+    gap: var(--space-3);
+    font-size: var(--text-xs);
+    color: var(--color-muted);
+  }
+
+  .card__title a {
+    color: inherit;
+    text-decoration: none;
+  }
+
+  .card__title a:hover,
+  .card__title a:focus-visible {
+    color: var(--color-primary);
+  }
+</style>

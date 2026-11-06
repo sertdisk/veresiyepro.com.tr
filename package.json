@@ -1,0 +1,27 @@
+{
+  "name": "veresiyepro-com-tr",
+  "type": "module",
+  "version": "0.1.0",
+  "description": "Veresiye Pro — Windows veresiye programı resmi tanıtım sitesi (Astro statik site)",
+  "engines": {
+    "node": ">=22.23.4"
+  },
+  "scripts": {
+    "dev": "astro dev",
+    "build": "astro build",
+    "preview": "astro preview",
+    "check": "astro check",
+    "audit": "node scripts/audit-seo.mjs",
+    "astro": "astro"
+  },
+  "dependencies": {
+    "@astrojs/sitemap": "^3.7.4",
+    "@fontsource-variable/manrope": "^5.3.0",
+    "@fontsource-variable/sora": "^5.3.0",
+    "astro": "^7.4.7"
+  },
+  "devDependencies": {
+    "@astrojs/check": "^0.9.5",
+    "typescript": "^5.9.0"
+  }
+}

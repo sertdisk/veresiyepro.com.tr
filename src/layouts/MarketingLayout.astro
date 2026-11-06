@@ -1,0 +1,32 @@
+---
+import BaseLayout from './BaseLayout.astro';
+import type { StructuredDataInput } from '../utils/seo';
+
+interface Props {
+  title: string;
+  description?: string;
+  image?: string;
+  imageAlt?: string;
+  canonical?: string | false;
+  noindex?: boolean;
+  structuredData?: StructuredDataInput;
+  bodyClass?: string;
+}
+
+const { title, description, image, imageAlt, canonical, noindex, structuredData, bodyClass } =
+  Astro.props;
+---
+
+<BaseLayout
+  title={title}
+  description={description}
+  image={image}
+  imageAlt={imageAlt}
+  canonical={canonical}
+  noindex={noindex}
+  structuredData={structuredData}
+  bodyClass={['marketing-page', bodyClass].filter(Boolean).join(' ')}
+  wide
+>
+  <slot />
+</BaseLayout>

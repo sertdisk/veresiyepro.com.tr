@@ -1,0 +1,23 @@
+---
+/**
+ * Markdown içeriği sarmalayan prose konteyneri.
+ * `idCounter` — h2/h3 başlıklara slug verir ki Toc bağlantıları çalışsın.
+ * Astro Markdown otomatik olarak slug'lı id üretir; bu bileşen yalnızca stil
+ * ve genişlik sınırı sağlar.
+ */
+interface Props {
+  wide?: boolean;
+}
+
+const { wide = false } = Astro.props;
+---
+
+<div class:list={['prose', wide && 'prose--wide']}>
+  <slot />
+</div>
+
+<style is:global>
+  .prose--wide {
+    max-width: none;
+  }
+</style>

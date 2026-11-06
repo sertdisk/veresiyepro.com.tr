@@ -1,0 +1,36 @@
+# Veresiye Pro — arama motorları ve yapay zekâ arama botları için erişim politikası.
+# Tüm kamuya açık tanıtım, yardım, sürüm ve yasal içerikler taranabilir.
+# AI botları bilinçli olarak engellenmez; ürün bilgisinin doğru kaynaktan
+# okunabilmesi hedeflenir. Bu bir sıralama garantisi değildir.
+
+User-agent: *
+Allow: /
+
+User-agent: GPTBot
+Allow: /
+
+User-agent: OAI-SearchBot
+Allow: /
+
+User-agent: ChatGPT-User
+Allow: /
+
+User-agent: ClaudeBot
+Allow: /
+
+User-agent: PerplexityBot
+Allow: /
+
+User-agent: Google-Extended
+Allow: /
+
+User-agent: Bingbot
+Allow: /
+
+User-agent: Applebot-Extended
+Allow: /
+
+User-agent: CCBot
+Allow: /
+
+Sitemap: https://veresiyepro.com.tr/sitemap-index.xml

@@ -1,0 +1,124 @@
+---
+import { getCollection } from 'astro:content';
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import PageHero from '../../components/ui/PageHero.astro';
+import Breadcrumbs from '../../components/ui/Breadcrumbs.astro';
+import TestimonialCard from '../../components/content/TestimonialCard.astro';
+import EmptyState from '../../components/ui/EmptyState.astro';
+import Button from '../../components/ui/Button.astro';
+import { sortByOrder } from '../../utils/format';
+import { LINKS } from '../../data/site';
+
+const testimonials = sortByOrder(
+  await getCollection('testimonials', ({ data }) => data.draft !== true),
+);
+
+// Öne çıkanlar ilk sıralarda yer alsın
+const sorted = [
+  ...testimonials.filter((t) => t.data.featured),
+  ...testimonials.filter((t) => !t.data.featured),
+];
+
+const crumbs = [
+  { label: 'Ana Sayfa', href: '/' },
+  { label: 'Referanslar' },
+];
+---
+
+<BaseLayout
+  title="Referanslar"
+  description="Veresiye Pro kullanan işletme ve esnafların deneyimleri; veresiye takibi, tahsilat ve analiz avantajları."
+  structuredData={{
+    breadcrumbs: crumbs.map(({ label, href }) => ({ name: label, url: href })),
+    webPage: {
+      name: 'Veresiye Pro Referansları',
+      description:
+        'Küçük işletmeler ve esnafların veresiye yönetimi deneyimleri. Bu sayfadaki yorumlar yayın öncesi örnek içeriktir.',
+    },
+  }}
+>
+  <PageHero
+    eyebrow="Referanslar"
+    title="Veresiye Pro Kullananlar Ne Diyor?"
+    description="Küçük işletmeler ve esnaflar, veresiye yönetimlerini nasıl akıllı hale getirdi?"
+    meta={sorted.length > 0 ? `${sorted.length} örnek görüş` : undefined}
+  />
+
+  <div class="container section">
+    <Breadcrumbs items={crumbs} />
+
+    <aside class="reference-note" aria-labelledby="reference-note-title">
+      <h2 class="reference-note__title" id="reference-note-title">Örnek içerik bilgisi</h2>
+      <p>
+        Bu sayfadaki isim, işletme ve yorumlar <strong>kurgusal örneklerdir</strong>; gerçek kişi
+        veya işletmelerle ilişkisi yoktur. Yayından önce izinli, gerçek kullanıcı deneyimleriyle
+        değiştirilecektir. Bu nedenle sayfada yıldız puanı veya değerlendirme yapılandırılmış
+        verisi (Review / AggregateRating) yayınlanmaz.
+      </p>
+    </aside>
+
+    {
+      sorted.length === 0 ? (
+        <EmptyState
+          title="Henüz referans paylaşılmadı"
+          text="İlk referanslar hazır olduğunda burada gösterilecektir."
+        >
+          <p>
+            <Button variant="secondary" href="/">Ana sayfaya dön</Button>
+          </p>
+        </EmptyState>
+      ) : (
+        <div class="reference-grid">
+          {sorted.map((testimonial) => (
+            <TestimonialCard testimonial={testimonial} />
+          ))}
+        </div>
+      )
+    }
+
+    <div class="reference-cta">
+      <Button variant="primary" size="lg" href={LINKS.panelSignup} external>
+        Premium Lisansı Satın Al
+      </Button>
+    </div>
+  </div>
+</BaseLayout>
+
+<style>
+  .reference-note {
+    margin-bottom: var(--space-6);
+    padding: var(--space-5);
+    border: 1px solid var(--color-border);
+    border-left: 4px solid var(--color-accent);
+    border-radius: var(--radius-md);
+    background: var(--color-surface-alt);
+    max-width: 78ch;
+  }
+
+  .reference-note__title {
+    font-size: var(--text-md);
+    color: var(--color-ink);
+    margin-bottom: var(--space-2);
+  }
+
+  .reference-note p {
+    color: var(--color-muted);
+    font-size: var(--text-sm);
+    line-height: 1.65;
+  }
+
+  .reference-grid {
+    columns: 3 300px;
+    column-gap: var(--space-5);
+  }
+
+  .reference-grid :global(.testimonial-card) {
+    break-inside: avoid;
+    margin-bottom: var(--space-5);
+  }
+
+  .reference-cta {
+    margin-top: var(--space-7);
+    text-align: center;
+  }
+</style>

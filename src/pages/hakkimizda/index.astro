@@ -1,0 +1,181 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import PageHero from '../../components/ui/PageHero.astro';
+import Breadcrumbs from '../../components/ui/Breadcrumbs.astro';
+import { PRICING } from '../../data/site';
+
+const crumbs = [
+  { label: 'Ana Sayfa', href: '/' },
+  { label: 'Hakkımızda' },
+];
+
+const title = 'Hakkımızda';
+const description =
+  'Veresiye Pro nedir, kimler için geliştirildi ve hangi yaklaşımla çalışır? Ürünün amacı, hedef kitlesi ve veri sahipliği yaklaşımı.';
+---
+
+<BaseLayout
+  title={title}
+  description={description}
+  structuredData={{
+    breadcrumbs: crumbs.map(({ label, href }) => ({ name: label, url: href })),
+    webPage: {
+      name: 'Veresiye Pro Hakkında',
+      description,
+    },
+  }}
+>
+  <PageHero
+    eyebrow="Hakkımızda"
+    title="Veresiye Pro Hakkında"
+    description="Veresiye defteri ve Excel tablolarının yerini alan, yapılacak işe odaklanan bir Windows masaüstü uygulaması."
+  />
+
+  <div class="container section">
+    <Breadcrumbs items={crumbs} />
+
+    <article class="about">
+      <section aria-labelledby="about-nedir">
+        <h2 id="about-nedir">Veresiye Pro nedir?</h2>
+        <p>
+          Veresiye Pro, küçük işletmelerin ve esnafların veresiye, cari hesap ve tahsilat
+          süreçlerini tek bir Windows masaüstü uygulamasında toplayan bir yazılımdır. Müşteri,
+          tedarikçi ve personel carilerini tek yerde tutar; vadesiz, vadeli, taksitli ve
+          tekrarlayan veresiye işlemlerini takip eder.
+        </p>
+        <p>
+          Uygulamanın ayırt edici yaklaşımı, işlem geçmişini öne çıkarmak yerine
+          <strong> yapılması gereken işlemlere</strong> odaklanmasıdır: geciken ve bugün vadesi
+          gelen kayıtlar ana ekranda ve cari kartında önceliklendirilir.
+        </p>
+      </section>
+
+      <section aria-labelledby="about-kimler">
+        <h2 id="about-kimler">Kimler için geliştirildi?</h2>
+        <p>
+          Ürün; bakkal, market, tedarikçi, toptancı, fırın, oto yedek parçacısı, zirai ürün
+          satıcısı ve benzeri küçük işletmeler için tasarlandı. Günlük işini deftere veya Excel
+          tablosuna yazan, tahsilatı takip etmekte zorlanan ve bilgisayarında çalışan sade bir
+          program arayan kullanıcıları hedefler.
+        </p>
+        <p>
+          Program Windows 10 ve Windows 11 üzerinde çalışan bir masaüstü uygulamasıdır; tarayıcı
+          veya sunucu kurulumu gerektirmez.
+        </p>
+      </section>
+
+      <section aria-labelledby="about-neden">
+        <h2 id="about-neden">Neden var?</h2>
+        <p>
+          Veresiye defterinde ve dağınık Excel dosyalarında en sık yaşanan sorunlar bellidir:
+          geciken vadeler gözden kaçar, aynı kişiye ait alacak ve borç birbirine karışır, ay sonu
+          mutabakatı saatler alır. Veresiye Pro bu üç sorunu tek akışta çözmek için geliştirildi.
+        </p>
+        <ul>
+          <li>Geciken ve bugün vadesi gelen işlemler açılışta listelenir.</li>
+          <li>Çift yönlü cari hesap, alacak ve borcu tek kartta mahsuplaştırır.</li>
+          <li>Tahsilat, ödeme ve raporlama aynı ekranda tamamlanır.</li>
+        </ul>
+      </section>
+
+      <section aria-labelledby="about-yaklasim">
+        <h2 id="about-yaklasim">Yaklaşımımız</h2>
+        <ul>
+          <li>
+            <strong>Önce yapılacak iş:</strong> Arayüz, geçmiş kayıt yığını yerine bugün
+            yapılması gereken işlemi gösterir.
+          </li>
+          <li>
+            <strong>Offline-first:</strong> Kayıtlar bilgisayardaki şifreli yerel veritabanında
+            tutulur; internet kesintisi temel işlemleri durdurmaz.
+          </li>
+          <li>
+            <strong>Veri sahipliği sizde:</strong> Verileriniz cihazınızda kalır, dilediğiniz an
+            dışa aktarılabilir.
+          </li>
+          <li>
+            <strong>Ömür boyu veri erişimi:</strong> Lisans süresi sona erse dahi mevcut
+            kayıtlarınıza erişebilir ve yeni kayıt girmeye devam edebilirsiniz.
+          </li>
+          <li>
+            <strong>Doğrulanmış özellikler:</strong> Tanıtımda yalnızca gerçekten çalışan
+            özellikler anlatılır; abartılı iddia veya uydurma başarı hikâyesi kullanılmaz.
+          </li>
+        </ul>
+      </section>
+
+      <section aria-labelledby="about-lisans">
+        <h2 id="about-lisans">Platform ve lisans</h2>
+        <p>
+          Veresiye Pro tek bir premium lisansla sunulur: ilk yıl {PRICING.firstYear}, yenilemeler
+          %{PRICING.discountPercent} indirimle yıllık {PRICING.renewal}. Lisans, Windows 10 ve
+          Windows 11 masaüstü uygulamasını kapsar.
+        </p>
+        <p class="about__links">
+          <a href="/#ozellikler">Özellikleri inceleyin</a>
+          <span aria-hidden="true">·</span>
+          <a href="/#premium">Fiyatlandırmayı görün</a>
+          <span aria-hidden="true">·</span>
+          <a href="/yardim/">Yardım merkezine gidin</a>
+          <span aria-hidden="true">·</span>
+          <a href="/surum-notlari/">Sürüm notlarını okuyun</a>
+        </p>
+      </section>
+
+      <section aria-labelledby="about-iletisim">
+        <h2 id="about-iletisim">İletişim ve şeffaflık</h2>
+        <p>
+          Ürünle ilgili sorularınız için <a href="/yardim/">yardım merkezindeki</a> kılavuzlara
+          göz atabilirsiniz. Yasal belgeler, veri işleme ve kullanım koşulları
+          <a href="/yasal/">yasal belgeler</a> sayfasında yayınlanır. Sayfadaki referanslar
+          yayın öncesi örnek içeriktir; gerçek kullanıcı deneyimleriyle değiştirilecektir.
+        </p>
+      </section>
+    </article>
+  </div>
+</BaseLayout>
+
+<style>
+  .about {
+    max-width: 72ch;
+  }
+
+  .about section + section {
+    margin-top: var(--space-7);
+    padding-top: var(--space-6);
+    border-top: 1px solid var(--color-border);
+  }
+
+  .about h2 {
+    font-size: var(--text-h3);
+    color: var(--color-ink);
+    margin-bottom: var(--space-3);
+  }
+
+  .about p {
+    color: var(--color-text);
+    line-height: 1.7;
+    margin-bottom: var(--space-3);
+  }
+
+  .about ul {
+    margin: 0;
+    padding-left: 1.2rem;
+    display: grid;
+    gap: var(--space-2);
+    color: var(--color-text);
+    line-height: 1.65;
+  }
+
+  .about a {
+    color: var(--color-primary);
+  }
+
+  .about__links {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.5rem;
+    align-items: center;
+    font-weight: 600;
+  }
+</style>

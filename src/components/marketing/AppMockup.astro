@@ -1,0 +1,744 @@
+---
+import Icon from './Icon.astro';
+import QrPattern from './QrPattern.astro';
+---
+
+<div class="mock">
+  <div class="mock__window">
+    <div class="mock__titlebar">
+      <div class="mock__app">
+        <span class="mock__app-mark">VP</span>
+        <span class="mock__app-name">Veresiye Pro</span>
+        <span class="mock__app-edition">Premium</span>
+      </div>
+      <div class="mock__titlebar-right">
+        <span class="mock__demo">DEMO</span>
+        <span class="mock__controls" aria-hidden="true">
+          <i></i><i></i><i class="is-close"></i>
+        </span>
+      </div>
+    </div>
+
+    <div class="mock__body">
+      <aside class="mock__sidebar">
+        <div class="mock__nav">
+          <span class="mock__nav-item is-active"><Icon name="panel" size={13} /><span>Panel</span></span>
+          <span class="mock__nav-item"><Icon name="users" size={13} /><span>Cariler</span></span>
+          <span class="mock__nav-item"><Icon name="ledger" size={13} /><span>Veresiye</span></span>
+          <span class="mock__nav-item"><Icon name="wallet" size={13} /><span>Tahsilat</span></span>
+          <span class="mock__nav-item"><Icon name="document" size={13} /><span>Çek &amp; Senet</span></span>
+          <span class="mock__nav-item"><Icon name="chart" size={13} /><span>Analiz</span></span>
+        </div>
+        <span class="mock__nav-item mock__nav-item--muted"><Icon name="settings" size={13} /><span>Ayarlar</span></span>
+      </aside>
+
+      <div class="mock__main">
+        <div class="mock__topbar">
+          <div>
+            <p class="mock__greet">Günaydın, işletmeniz</p>
+            <p class="mock__date">6 Kasım 2026 · Cuma</p>
+          </div>
+          <div class="mock__user">
+            <span class="mock__user-dot"></span>
+            <span class="mock__user-initials">AY</span>
+          </div>
+        </div>
+
+        <div class="mock__stats">
+          <div class="mock__stat">
+            <p class="mock__stat-label">Toplam veresiye alacağı</p>
+            <p class="mock__stat-value">₺148.450</p>
+            <span class="mock__spark" aria-hidden="true">
+              <i style="height: 30%"></i><i style="height: 52%"></i><i style="height: 42%"></i><i style="height: 68%"></i><i style="height: 58%"></i><i style="height: 86%"></i>
+            </span>
+          </div>
+          <div class="mock__stat">
+            <p class="mock__stat-label">Borç bakiyesi</p>
+            <p class="mock__stat-value">₺32.180</p>
+            <span class="mock__stat-meta">Tedarikçi &amp; personel</span>
+          </div>
+          <div class="mock__stat mock__stat--danger">
+            <p class="mock__stat-label">Gecikmiş tahsilat</p>
+            <p class="mock__stat-value">₺14.200</p>
+            <span class="mock__stat-meta mock__stat-meta--danger">2 işlem bekliyor</span>
+          </div>
+        </div>
+
+        <div class="mock__panel">
+          <div class="mock__panel-head">
+            <span class="mock__panel-title">
+              <Icon name="clock" size={12} />
+              Bekleyen işlemler
+            </span>
+            <span class="mock__panel-count">Bugün · 3</span>
+          </div>
+
+          <div class="mock__row">
+            <span class="mock__avatar">AY</span>
+            <span class="mock__row-main">
+              <span class="mock__row-name">Ahmet Yılmaz</span>
+              <span class="mock__row-meta">Taksitli veresiye 2/4 · Vade: bugün</span>
+            </span>
+            <span class="mock__row-amount">₺4.500</span>
+            <span class="mock__badge mock__badge--today">Bugün</span>
+          </div>
+
+          <div class="mock__row">
+            <span class="mock__avatar mock__avatar--alt">Dİ</span>
+            <span class="mock__row-main">
+              <span class="mock__row-name">Demir İnşaat Ltd.</span>
+              <span class="mock__row-meta">Vadeli borç · 3 gün gecikme</span>
+            </span>
+            <span class="mock__row-amount mock__row-amount--danger">₺9.700</span>
+            <span class="mock__badge mock__badge--late">Gecikmiş</span>
+          </div>
+
+          <div class="mock__row">
+            <span class="mock__avatar mock__avatar--gold">KT</span>
+            <span class="mock__row-main">
+              <span class="mock__row-name">Kaya Ticaret</span>
+              <span class="mock__row-meta">Veresiye · 2 gün kaldı</span>
+            </span>
+            <span class="mock__row-amount">₺2.150</span>
+            <span class="mock__badge mock__badge--soon">Yaklaşan</span>
+          </div>
+
+          <div class="mock__panel-foot">
+            <span>3 işlem · toplam</span>
+            <strong>₺16.350</strong>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="mock__qr">
+    <span class="mock__qr-code"><QrPattern size={42} /></span>
+    <div class="mock__qr-text">
+      <p class="mock__qr-title">QR ile hızlı iletişim</p>
+      <p class="mock__qr-sub">WhatsApp · SMS · Arama</p>
+    </div>
+    <span class="mock__qr-arrow" aria-hidden="true">
+      <Icon name="arrow-right" size={13} />
+    </span>
+  </div>
+
+  <div class="mock__toast">
+    <span class="mock__toast-icon"><Icon name="check" size={12} strokeWidth={2.4} /></span>
+    <span class="mock__toast-body">
+      <strong>WhatsApp mesajı hazır</strong>
+      <span>Ahmet Yılmaz · ₺4.500</span>
+    </span>
+  </div>
+</div>
+
+<style>
+  .mock {
+    position: relative;
+    width: 100%;
+    max-width: 610px;
+    margin-inline: auto;
+    font-family: var(--font-body);
+    font-variant-numeric: tabular-nums;
+    color: var(--color-ink);
+  }
+
+  .mock__window {
+    position: relative;
+    border-radius: 16px;
+    overflow: hidden;
+    background: #fff;
+    border: 1px solid rgb(255 255 255 / 0.55);
+    box-shadow:
+      0 0 0 1px rgb(6 182 212 / 0.1),
+      0 30px 60px -24px rgb(3 10 28 / 0.7),
+      0 70px 120px -50px rgb(3 10 28 / 0.75);
+  }
+
+  /* ---- Başlık çubuğu ---- */
+  .mock__titlebar {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 8px;
+    padding: 8px 12px;
+    background: #f2f6fc;
+    border-bottom: 1px solid #e4ebf6;
+  }
+
+  .mock__app {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    font-size: 10.5px;
+    font-weight: 700;
+    letter-spacing: -0.01em;
+  }
+
+  .mock__app-mark {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 18px;
+    height: 18px;
+    border-radius: 5px;
+    background: linear-gradient(140deg, #1d4ed8, #06b6d4);
+    color: #fff;
+    font-family: var(--font-display);
+    font-size: 7.5px;
+    font-weight: 700;
+    letter-spacing: 0.02em;
+  }
+
+  .mock__app-name {
+    color: #0b1e4b;
+  }
+
+  .mock__app-edition {
+    padding: 1px 5px;
+    border-radius: 999px;
+    background: rgb(245 158 11 / 0.16);
+    color: #92400e;
+    font-size: 7.5px;
+    font-weight: 800;
+    text-transform: uppercase;
+    letter-spacing: 0.06em;
+  }
+
+  .mock__titlebar-right {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+  }
+
+  .mock__demo {
+    font-size: 7.5px;
+    font-weight: 800;
+    letter-spacing: 0.12em;
+    color: #5b6b82;
+  }
+
+  .mock__controls {
+    display: flex;
+    gap: 3px;
+  }
+
+  .mock__controls i {
+    width: 7px;
+    height: 7px;
+    border-radius: 50%;
+    background: #cbd6e6;
+  }
+
+  .mock__controls i.is-close {
+    background: #f0a9a9;
+  }
+
+  /* ---- Gövde ---- */
+  .mock__body {
+    display: grid;
+    grid-template-columns: 138px minmax(0, 1fr);
+    min-height: 340px;
+  }
+
+  .mock__sidebar {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    gap: 14px;
+    padding: 14px 10px 12px;
+    background:
+      radial-gradient(160px 120px at 0% 0%, rgb(6 182 212 / 0.2), transparent 70%),
+      linear-gradient(180deg, #0e2455 0%, #091a40 100%);
+    color: rgb(226 234 248 / 0.72);
+  }
+
+  .mock__nav {
+    display: grid;
+    gap: 2px;
+  }
+
+  .mock__nav-item {
+    position: relative;
+    display: flex;
+    align-items: center;
+    gap: 7px;
+    padding: 6px 8px;
+    border-radius: 6px;
+    font-size: 9.5px;
+    font-weight: 600;
+    line-height: 1.2;
+  }
+
+  .mock__nav-item.is-active {
+    background: rgb(255 255 255 / 0.1);
+    color: #fff;
+  }
+
+  .mock__nav-item.is-active::before {
+    content: '';
+    position: absolute;
+    left: -10px;
+    top: 6px;
+    bottom: 6px;
+    width: 2px;
+    border-radius: 2px;
+    background: var(--color-accent);
+  }
+
+  .mock__nav-item--muted {
+    color: rgb(226 234 248 / 0.45);
+    border-top: 1px solid rgb(255 255 255 / 0.1);
+    border-radius: 0;
+    padding-top: 10px;
+  }
+
+  .mock__main {
+    display: flex;
+    flex-direction: column;
+    gap: 11px;
+    padding: 13px 14px 14px;
+    background:
+      radial-gradient(280px 120px at 100% 0%, rgb(6 182 212 / 0.06), transparent 70%),
+      #fff;
+    min-width: 0;
+  }
+
+  .mock__topbar {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 10px;
+  }
+
+  .mock__greet {
+    font-family: var(--font-display);
+    font-size: 11.5px;
+    font-weight: 600;
+    color: #0b1729;
+    letter-spacing: -0.02em;
+  }
+
+  .mock__date {
+    font-size: 8.5px;
+    color: #5b6b82;
+    margin-top: 1px;
+  }
+
+  .mock__user {
+    display: inline-flex;
+    align-items: center;
+    gap: 5px;
+    padding: 3px 7px 3px 4px;
+    border: 1px solid #e4ebf6;
+    border-radius: 999px;
+    background: #f8fafd;
+  }
+
+  .mock__user-dot {
+    width: 5px;
+    height: 5px;
+    border-radius: 50%;
+    background: var(--color-success);
+  }
+
+  .mock__user-initials {
+    font-size: 8px;
+    font-weight: 800;
+    color: #0b1e4b;
+  }
+
+  /* ---- Özet kartları ---- */
+  .mock__stats {
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: 7px;
+  }
+
+  .mock__stat {
+    display: flex;
+    flex-direction: column;
+    gap: 3px;
+    padding: 8px 9px;
+    border: 1px solid #e7edf7;
+    border-radius: 8px;
+    background: linear-gradient(180deg, #fff, #f9fbfe);
+    min-width: 0;
+  }
+
+  .mock__stat--danger {
+    border-color: #f7d9d9;
+    background: linear-gradient(180deg, #fff, #fdf6f6);
+  }
+
+  .mock__stat-label {
+    font-size: 7.5px;
+    font-weight: 600;
+    color: #5b6b82;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+
+  .mock__stat-value {
+    font-family: var(--font-display);
+    font-size: 14px;
+    font-weight: 600;
+    letter-spacing: -0.04em;
+    color: #0b1729;
+  }
+
+  .mock__stat--danger .mock__stat-value {
+    color: #cc2b2b;
+  }
+
+  .mock__stat-meta {
+    font-size: 7.5px;
+    color: #5b6b82;
+  }
+
+  .mock__stat-meta--danger {
+    color: #b23b3b;
+  }
+
+  .mock__spark {
+    display: flex;
+    align-items: flex-end;
+    gap: 2px;
+    height: 12px;
+    margin-top: 1px;
+  }
+
+  .mock__spark i {
+    width: 4px;
+    border-radius: 1px;
+    background: linear-gradient(180deg, #22d3ee, #1d4ed8);
+    opacity: 0.75;
+  }
+
+  /* ---- Bekleyen işlemler ---- */
+  .mock__panel {
+    border: 1px solid #e7edf7;
+    border-radius: 9px;
+    overflow: hidden;
+    background: #fff;
+    box-shadow: 0 2px 6px rgb(11 30 75 / 0.04);
+  }
+
+  .mock__panel-head {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 8px;
+    padding: 7px 9px;
+    background: #f7fafe;
+    border-bottom: 1px solid #e7edf7;
+  }
+
+  .mock__panel-title {
+    display: inline-flex;
+    align-items: center;
+    gap: 5px;
+    font-size: 9px;
+    font-weight: 800;
+    color: #0b1e4b;
+    letter-spacing: -0.01em;
+  }
+
+  .mock__panel-count {
+    font-size: 7.5px;
+    font-weight: 700;
+    color: #1d4ed8;
+    padding: 1px 6px;
+    border-radius: 999px;
+    background: rgb(29 78 216 / 0.08);
+  }
+
+  .mock__row {
+    display: grid;
+    grid-template-columns: 20px minmax(0, 1fr) auto auto;
+    align-items: center;
+    gap: 7px;
+    padding: 7px 9px;
+    border-bottom: 1px solid #f0f4fa;
+  }
+
+  .mock__row:last-of-type {
+    border-bottom: 0;
+  }
+
+  .mock__avatar {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 20px;
+    height: 20px;
+    border-radius: 50%;
+    background: #e5edff;
+    color: #1d4ed8;
+    font-size: 6.5px;
+    font-weight: 800;
+  }
+
+  .mock__avatar--alt {
+    background: #fde8e8;
+    color: #b91c1c;
+  }
+
+  .mock__avatar--gold {
+    background: #fdf0d5;
+    color: #92400e;
+  }
+
+  .mock__row-main {
+    display: grid;
+    min-width: 0;
+  }
+
+  .mock__row-name {
+    font-size: 9px;
+    font-weight: 700;
+    color: #0b1729;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+
+  .mock__row-meta {
+    font-size: 7.5px;
+    color: #5b6b82;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+
+  .mock__row-amount {
+    font-size: 9px;
+    font-weight: 800;
+    color: #0b1729;
+    white-space: nowrap;
+  }
+
+  .mock__row-amount--danger {
+    color: #cc2b2b;
+  }
+
+  .mock__badge {
+    font-size: 6.5px;
+    font-weight: 800;
+    padding: 2px 5px;
+    border-radius: 999px;
+    white-space: nowrap;
+    letter-spacing: 0.02em;
+  }
+
+  .mock__badge--today {
+    background: #fdf0d5;
+    color: #92400e;
+  }
+
+  .mock__badge--late {
+    background: #fde8e8;
+    color: #b91c1c;
+  }
+
+  .mock__badge--soon {
+    background: #e5edff;
+    color: #1d4ed8;
+  }
+
+  .mock__panel-foot {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 8px;
+    padding: 6px 9px;
+    background: #f7fafe;
+    border-top: 1px solid #e7edf7;
+    font-size: 7.5px;
+    color: #5b6b82;
+  }
+
+  .mock__panel-foot strong {
+    font-size: 9px;
+    color: #0b1e4b;
+  }
+
+  /* ---- Yüzen kartlar ---- */
+  .mock__qr {
+    position: absolute;
+    left: -30px;
+    bottom: 4px;
+    display: flex;
+    align-items: center;
+    gap: 7px;
+    padding: 8px 10px 8px 8px;
+    border-radius: 12px;
+    background: #fff;
+    border: 1px solid #e7edf7;
+    box-shadow: 0 20px 40px -16px rgb(3 10 28 / 0.45);
+    animation: mock-float 7s ease-in-out infinite;
+  }
+
+  .mock__qr-code {
+    display: inline-flex;
+    border-radius: 4px;
+    border: 1px solid #eef2f9;
+    padding: 2px;
+    background: #fff;
+  }
+
+  .mock__qr-title {
+    font-family: var(--font-display);
+    font-size: 9.5px;
+    font-weight: 600;
+    color: #0b1729;
+    letter-spacing: -0.02em;
+    line-height: 1.25;
+  }
+
+  .mock__qr-sub {
+    font-size: 7.5px;
+    color: #5b6b82;
+    margin-top: 2px;
+    line-height: 1.3;
+  }
+
+  .mock__qr-text {
+    max-width: 84px;
+  }
+
+  .mock__qr-arrow {
+    display: none;
+  }
+
+  .mock__toast {
+    position: absolute;
+    top: 44px;
+    right: -22px;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    padding: 8px 12px 8px 8px;
+    border-radius: 10px;
+    background: rgb(255 255 255 / 0.97);
+    border: 1px solid #e7edf7;
+    box-shadow: 0 18px 36px -18px rgb(3 10 28 / 0.4);
+  }
+
+  .mock__toast-icon {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 22px;
+    height: 22px;
+    border-radius: 50%;
+    background: #e8fbf3;
+    color: #047857;
+  }
+
+  .mock__toast-body {
+    display: grid;
+    gap: 1px;
+  }
+
+  .mock__toast-body strong {
+    font-size: 8.5px;
+    color: #0b1729;
+  }
+
+  .mock__toast-body span {
+    font-size: 7.5px;
+    color: #5b6b82;
+  }
+
+  @keyframes mock-float {
+    0%,
+    100% {
+      transform: translateY(0);
+    }
+    50% {
+      transform: translateY(-5px);
+    }
+  }
+
+  @media (max-width: 640px) {
+    .mock__body {
+      grid-template-columns: 54px minmax(0, 1fr);
+      min-height: 0;
+    }
+
+    .mock__sidebar {
+      padding: 12px 8px;
+      align-items: center;
+    }
+
+    .mock__nav-item {
+      justify-content: center;
+      padding: 7px 0;
+    }
+
+    .mock__nav-item span {
+      display: none;
+    }
+
+    .mock__nav-item.is-active::before {
+      left: -8px;
+    }
+
+    .mock__main {
+      padding: 10px;
+      gap: 8px;
+    }
+
+    .mock__stats {
+      gap: 5px;
+    }
+
+    .mock__stat {
+      padding: 6px 7px;
+    }
+
+    .mock__stat-value {
+      font-size: 12px;
+    }
+
+    .mock__stat-label,
+    .mock__stat-meta {
+      font-size: 6.8px;
+    }
+
+    .mock__row {
+      grid-template-columns: 18px minmax(0, 1fr) auto;
+      gap: 6px;
+      padding: 6px 8px;
+    }
+
+    .mock__row .mock__badge {
+      display: none;
+    }
+
+    .mock__row-meta {
+      font-size: 7px;
+    }
+
+    .mock__toast {
+      display: none;
+    }
+
+    .mock__qr {
+      left: 6px;
+      bottom: -14px;
+      padding: 6px;
+    }
+
+    .mock__qr-text {
+      display: none;
+    }
+
+    .mock__qr-code {
+      border: 0;
+      padding: 0;
+    }
+  }
+</style>

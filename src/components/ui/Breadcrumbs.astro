@@ -1,0 +1,72 @@
+---
+interface Crumb {
+  label: string;
+  href?: string;
+}
+
+interface Props {
+  items: Crumb[];
+}
+
+const { items } = Astro.props;
+---
+
+{
+  items.length > 1 && (
+    <nav class="breadcrumbs" aria-label="Sayfa yolu">
+      <ol>
+        {items.map((item) => (
+          <li>
+            {item.href ? (
+              <a href={item.href}>{item.label}</a>
+            ) : (
+              <span aria-current="page">{item.label}</span>
+            )}
+          </li>
+        ))}
+      </ol>
+    </nav>
+  )
+}
+
+<style>
+  .breadcrumbs {
+    font-size: var(--text-xs);
+    color: var(--color-muted);
+  }
+
+  .breadcrumbs ol {
+    display: flex;
+    flex-wrap: wrap;
+    list-style: none;
+    margin: 0;
+    padding: 0;
+  }
+
+  .breadcrumbs li {
+    display: inline-flex;
+    align-items: center;
+  }
+
+  .breadcrumbs li + li::before {
+    content: '/';
+    margin-inline: 0.5rem;
+    color: var(--color-border);
+  }
+
+  .breadcrumbs a {
+    color: var(--color-muted);
+    text-decoration: none;
+  }
+
+  .breadcrumbs a:hover,
+  .breadcrumbs a:focus-visible {
+    color: var(--color-primary);
+    text-decoration: underline;
+  }
+
+  .breadcrumbs [aria-current='page'] {
+    color: var(--color-ink);
+    font-weight: 600;
+  }
+</style>

@@ -1,0 +1,97 @@
+---
+import { SITE } from '../../data/site';
+import { clampDescription } from '../../utils/seo';
+
+interface Props {
+  title: string;
+  description?: string;
+  image?: string;
+  imageAlt?: string;
+  /** Görselin gerçek boyutları; bilinmiyorsa (ör. içerik kapağı) gönderilmez. */
+  imageWidth?: number;
+  imageHeight?: number;
+  type?: 'website' | 'article';
+  noindex?: boolean;
+  /** `false` → canonical üretilmez (404/noindex). Yol veya mutlak URL verilebilir. */
+  canonical?: string | false;
+  author?: string;
+  publishedAt?: Date;
+  updatedAt?: Date;
+}
+
+const {
+  title,
+  description = SITE.description,
+  image = SITE.defaultImage,
+  imageAlt = SITE.defaultImageAlt,
+  imageWidth: imageWidthProp,
+  imageHeight: imageHeightProp,
+  type = 'website',
+  noindex = false,
+  canonical,
+  author,
+  publishedAt,
+  updatedAt,
+} = Astro.props;
+
+// Boyut meta'sı yalnızca varsayılan paylaşım görseli için bilinir; içerik
+// görselleri kendi boyutunu vermedikçe yanlış değer yayınlanmaz.
+const imageWidth =
+  imageWidthProp ?? (image === SITE.defaultImage ? SITE.defaultImageWidth : undefined);
+const imageHeight =
+  imageHeightProp ?? (image === SITE.defaultImage ? SITE.defaultImageHeight : undefined);
+
+const site = Astro.site ?? new URL(SITE.url);
+const canonicalURL =
+  canonical === false
+    ? null
+    : canonical
+      ? new URL(canonical, site)
+      : new URL(Astro.url.pathname, site);
+const imageSrc = new URL(image, site).toString();
+const metaDescription = clampDescription(description);
+const fullTitle = title.includes(SITE.name) ? title : `${title} | ${SITE.name}`;
+---
+
+<title>{fullTitle}</title>
+<meta name="description" content={metaDescription} />
+<meta name="author" content={SITE.name} />
+{canonicalURL && <link rel="canonical" href={canonicalURL.toString()} />}
+{canonicalURL && <meta property="og:url" content={canonicalURL.toString()} />}
+
+{
+  noindex ? (
+    <meta name="robots" content="noindex, nofollow" />
+  ) : (
+    <meta name="robots" content="index, follow" />
+  )
+}
+
+<meta property="og:type" content={type} />
+<meta property="og:title" content={fullTitle} />
+<meta property="og:description" content={metaDescription} />
+<meta property="og:image" content={imageSrc} />
+<meta property="og:image:alt" content={imageAlt} />
+{imageWidth && <meta property="og:image:width" content={String(imageWidth)} />}
+{imageHeight && <meta property="og:image:height" content={String(imageHeight)} />}
+<meta property="og:site_name" content={SITE.name} />
+<meta property="og:locale" content={SITE.locale} />
+
+{
+  type === 'article' && publishedAt && (
+    <meta property="article:published_time" content={publishedAt.toISOString()} />
+  )
+}
+{
+  type === 'article' && updatedAt && (
+    <meta property="article:modified_time" content={updatedAt.toISOString()} />
+  )
+}
+{type === 'article' && <meta property="article:author" content={author ?? SITE.name} />}
+
+<meta name="twitter:card" content="summary_large_image" />
+<meta name="twitter:title" content={fullTitle} />
+<meta name="twitter:description" content={metaDescription} />
+<meta name="twitter:image" content={imageSrc} />
+<meta name="twitter:image:alt" content={imageAlt} />
+<link rel="sitemap" href="/sitemap-index.xml" />

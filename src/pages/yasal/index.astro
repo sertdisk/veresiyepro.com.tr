@@ -1,0 +1,71 @@
+---
+import type { CollectionEntry } from 'astro:content';
+import { getCollection } from 'astro:content';
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import PageHero from '../../components/ui/PageHero.astro';
+import Breadcrumbs from '../../components/ui/Breadcrumbs.astro';
+import EmptyState from '../../components/ui/EmptyState.astro';
+import { sortByOrder, formatDateShort } from '../../utils/format';
+
+const docs = sortByOrder(await getCollection('legal', ({ data }) => data.draft !== true));
+const crumbs = [
+  { label: 'Ana Sayfa', href: '/' },
+  { label: 'Yasal Belgeler' },
+];
+---
+
+<BaseLayout
+  title="Yasal Belgeler"
+  description="Veresiye Pro KVKK aydınlatma metni, gizlilik politikası, çerez politikası ve kullanım koşulları."
+  structuredData={{
+    breadcrumbs: crumbs.map(({ label, href }) => ({ name: label, url: href })),
+  }}
+>
+  <PageHero
+    eyebrow="Şeffaflık"
+    title="Yasal Belgeler"
+    description="Veresiye Pro kullanımıyla ilgili aydınlatma metinleri, politikalar ve koşullar. Belgeleri yayına almadan önce güncellenebilir."
+  />
+
+  <div class="container section">
+    <Breadcrumbs items={crumbs} />
+    {
+      docs.length === 0 ? (
+        <EmptyState
+          title="Yayında belge yok"
+          text="Yasal belgeler tamamlandığında bu sayfadan erişilebilecektir."
+        />
+      ) : (
+        <section aria-labelledby="legal-list-title">
+          <h2 class="legal-list__title" id="legal-list-title">Yayındaki Belgeler</h2>
+          <div class="card-grid legal-grid">
+            {docs.map((doc: CollectionEntry<'legal'>) => (
+              <a href={`/yasal/${doc.id}/`} class="card">
+                <h3 class="card__title">{doc.data.title}</h3>
+                <p class="card__text">{doc.data.description}</p>
+                <p class="card__meta">
+                  Son güncelleme:
+                  <time datetime={doc.data.updated.toISOString()}>
+                    {formatDateShort(doc.data.updated)}
+                  </time>
+                </p>
+              </a>
+            ))}
+          </div>
+        </section>
+      )
+    }
+  </div>
+</BaseLayout>
+
+<style>
+  .legal-list__title {
+    font-size: var(--text-h3);
+    color: var(--color-ink);
+    margin-bottom: var(--space-5);
+  }
+
+  .legal-grid {
+    max-width: 880px;
+  }
+</style>

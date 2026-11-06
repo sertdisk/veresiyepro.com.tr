@@ -1,0 +1,44 @@
+---
+import { getCollection, render, type CollectionEntry } from 'astro:content';
+import LegalLayout from '../../layouts/LegalLayout.astro';
+import Prose from '../../components/ui/Prose.astro';
+import { sortByOrder } from '../../utils/format';
+
+export async function getStaticPaths() {
+  const docs = await getCollection('legal', ({ data }) => data.draft !== true);
+  return docs.map((doc) => ({
+    params: { slug: doc.id },
+    props: { doc },
+  }));
+}
+
+const { doc } = Astro.props as { doc: CollectionEntry<'legal'> };
+const { Content } = await render(doc);
+const { title, description, updated, image, imageAlt, canonicalURL, noindex } = doc.data;
+
+const otherDocs = sortByOrder(
+  (await getCollection('legal', ({ data }) => data.draft !== true)).filter((d) => d.id !== doc.id),
+);
+
+const crumbs = [
+  { label: 'Ana Sayfa', href: '/' },
+  { label: 'Yasal', href: '/yasal/' },
+  { label: title },
+];
+---
+
+<LegalLayout
+  title={title}
+  description={description}
+  updated={updated}
+  crumbs={crumbs}
+  canonicalURL={canonicalURL}
+  noindex={noindex}
+  image={image}
+  imageAlt={imageAlt}
+  otherDocs={otherDocs.map((other) => ({ id: other.id, title: other.data.title }))}
+>
+  <Prose>
+    <Content />
+  </Prose>
+</LegalLayout>

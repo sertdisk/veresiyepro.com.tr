@@ -1,0 +1,621 @@
+---
+import Icon from './Icon.astro';
+import QrPattern from './QrPattern.astro';
+import Button from '../ui/Button.astro';
+---
+
+<section class="qr" id="qr-iletisim">
+  <div class="container">
+    <div class="qr__panel">
+      <div class="qr__copy">
+        <p class="qr__eyebrow">
+          <span class="qr__index">05</span>
+          <span class="qr__rule" aria-hidden="true"></span>
+          Sıfır maliyetli iletişim
+        </p>
+
+        <h2 class="qr__title">QR kodu okutun, WhatsApp'tan yazın, arayın.</h2>
+
+        <p class="qr__lead">
+          Müşterinin cari ekranındaki akıllı QR kodu telefonunuzla okutun. Hazır bakiye ve vade
+          metniyle WhatsApp mesajı gönderin, SMS atın veya tek dokunuşla arama başlatın. Harici SMS
+          servisi ya da entegrasyon ücreti yok.
+        </p>
+
+        <ul class="qr__actions">
+          <li>
+            <span class="qr__action-icon qr__action-icon--wa" aria-hidden="true">
+              <Icon name="chat" size={18} />
+            </span>
+            <span class="qr__action-body">
+              <span class="qr__action-title">WhatsApp mesajı</span>
+              <span class="qr__action-text">Bakiye ve vade bilgisi mesaja otomatik yazılır.</span>
+            </span>
+          </li>
+          <li>
+            <span class="qr__action-icon" aria-hidden="true">
+              <Icon name="sms" size={18} />
+            </span>
+            <span class="qr__action-body">
+              <span class="qr__action-title">SMS gönderimi</span>
+              <span class="qr__action-text">Telefonunuzun kendi SMS uygulaması üzerinden gönderilir.</span>
+            </span>
+          </li>
+          <li>
+            <span class="qr__action-icon" aria-hidden="true">
+              <Icon name="phone" size={18} />
+            </span>
+            <span class="qr__action-body">
+              <span class="qr__action-title">Tek dokunuşla arama</span>
+              <span class="qr__action-text">Numarayı elle yazmadan doğrudan arayın.</span>
+            </span>
+          </li>
+        </ul>
+
+        <div class="qr__foot">
+          <Button variant="primary" href="/yardim/qr-ile-iletisim/" >
+            QR iletişimi nasıl çalışır?
+            <Icon name="arrow-right" size={16} />
+          </Button>
+          <span class="qr__foot-note">Ek SMS paketi veya servis ücreti ödemezsiniz.</span>
+        </div>
+      </div>
+
+      <div class="qr__stage">
+        <div class="qr__stage-glow" aria-hidden="true"></div>
+
+        <div class="qr__card" aria-hidden="true">
+          <div class="qr__card-code">
+            <QrPattern size={118} />
+          </div>
+          <p class="qr__card-title">Telefonunuzla okutun</p>
+          <p class="qr__card-sub">Ahmet Yılmaz · ₺4.500</p>
+        </div>
+
+        <div class="qr__phone" aria-hidden="true">
+          <div class="qr__phone-notch"></div>
+          <div class="qr__phone-screen">
+            <div class="qr__chat-head">
+              <span class="qr__chat-avatar">AY</span>
+              <span class="qr__chat-who">
+                <strong>Ahmet Yılmaz</strong>
+                <span>WhatsApp · çevrimiçi</span>
+              </span>
+              <span class="qr__chat-call"><Icon name="phone" size={13} /></span>
+            </div>
+
+            <div class="qr__chat-body">
+              <p class="qr__chat-day">Bugün</p>
+              <div class="qr__bubble qr__bubble--out">
+                Sayın Ahmet Yılmaz, 4.500 ₺ tutarındaki taksit ödemenizin vadesi bugün.
+                <span class="qr__bubble-meta">09:41 ✓✓</span>
+              </div>
+              <div class="qr__bubble qr__bubble--in">Bilgi için teşekkürler, yarın ödeyeceğim.</div>
+              <div class="qr__chat-actions">
+                <span><Icon name="chat" size={11} /> WhatsApp</span>
+                <span><Icon name="sms" size={11} /> SMS</span>
+                <span><Icon name="phone" size={11} /> Ara</span>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="qr__cost" aria-hidden="true">
+          <span class="qr__cost-value">0 ₺</span>
+          <span class="qr__cost-label">iletişim maliyeti</span>
+        </div>
+
+        <p class="qr__stage-caption">Temsili QR ve telefon görünümü · demo veriler</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<style>
+  .qr {
+    padding-block: var(--space-9);
+    background: var(--color-surface);
+  }
+
+  .qr__panel {
+    position: relative;
+    overflow: hidden;
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) minmax(0, 0.92fr);
+    align-items: center;
+    gap: clamp(2.5rem, 5vw, 4rem);
+    padding: clamp(1.75rem, 4vw, 3.5rem);
+    border: 1px solid var(--color-border);
+    border-radius: var(--radius-2xl);
+    background:
+      radial-gradient(620px 420px at 88% 10%, rgb(6 182 212 / 0.12), transparent 62%),
+      radial-gradient(500px 380px at 0% 100%, rgb(29 78 216 / 0.06), transparent 65%),
+      linear-gradient(160deg, #f9fbff, #eef4fc);
+  }
+
+  .qr__panel::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background-image: radial-gradient(rgb(11 30 75 / 0.11) 1px, transparent 1px);
+    background-size: 26px 26px;
+    mask-image: radial-gradient(70% 80% at 95% 20%, #000, transparent 70%);
+    pointer-events: none;
+  }
+
+  .qr__copy {
+    position: relative;
+    z-index: 1;
+    max-width: 34rem;
+  }
+
+  .qr__eyebrow {
+    display: flex;
+    align-items: center;
+    gap: 0.6rem;
+    font-size: var(--text-xs);
+    font-weight: 700;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: var(--color-primary);
+  }
+
+  .qr__index {
+    font-family: var(--font-display);
+    font-weight: 600;
+    letter-spacing: 0.04em;
+    color: var(--color-accent);
+  }
+
+  .qr__rule {
+    width: 26px;
+    height: 1px;
+    background: linear-gradient(90deg, var(--color-accent), transparent);
+  }
+
+  .qr__title {
+    margin-block: 0.9rem 1rem;
+    font-size: var(--text-h2);
+    line-height: 1.16;
+    letter-spacing: -0.025em;
+    text-wrap: balance;
+  }
+
+  .qr__lead {
+    font-size: var(--text-lg);
+    line-height: 1.65;
+    color: var(--color-muted);
+  }
+
+  .qr__actions {
+    list-style: none;
+    margin: var(--space-6) 0 0;
+    padding: 0;
+    display: grid;
+    gap: var(--space-3);
+  }
+
+  .qr__actions li {
+    display: flex;
+    align-items: flex-start;
+    gap: var(--space-3);
+  }
+
+  .qr__action-icon {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 38px;
+    height: 38px;
+    flex: none;
+    border-radius: 11px;
+    background: var(--color-surface);
+    border: 1px solid var(--color-border);
+    color: var(--color-primary);
+    box-shadow: var(--shadow-xs);
+  }
+
+  .qr__action-icon--wa {
+    color: var(--color-success-ink);
+    border-color: rgb(16 185 129 / 0.25);
+    background: rgb(16 185 129 / 0.08);
+  }
+
+  .qr__action-body {
+    display: grid;
+    gap: 0.1rem;
+    padding-top: 0.15rem;
+  }
+
+  .qr__action-title {
+    font-family: var(--font-display);
+    font-size: 0.9375rem;
+    font-weight: 600;
+    color: var(--color-ink);
+    letter-spacing: -0.015em;
+  }
+
+  .qr__action-text {
+    font-size: var(--text-sm);
+    color: var(--color-muted);
+    line-height: 1.5;
+  }
+
+  .qr__foot {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: var(--space-4);
+    margin-top: var(--space-6);
+  }
+
+  .qr__foot-note {
+    font-size: var(--text-xs);
+    color: var(--color-muted);
+    max-width: 22ch;
+    line-height: 1.5;
+  }
+
+  /* ---- Sahne ---- */
+  .qr__stage {
+    position: relative;
+    z-index: 1;
+    min-height: 470px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  .qr__stage-glow {
+    position: absolute;
+    inset: 12% 6%;
+    border-radius: 50%;
+    background: radial-gradient(circle, rgb(6 182 212 / 0.22), transparent 68%);
+    filter: blur(18px);
+    pointer-events: none;
+  }
+
+  .qr__card {
+    position: absolute;
+    left: -8px;
+    top: 4%;
+    z-index: 2;
+    width: 170px;
+    padding: var(--space-4);
+    border-radius: var(--radius-lg);
+    background: #fff;
+    border: 1px solid var(--color-border);
+    box-shadow: var(--shadow-lg);
+    transform: rotate(-4deg);
+    animation: qr-float 8s ease-in-out infinite;
+  }
+
+  .qr__card-code {
+    display: flex;
+    justify-content: center;
+    padding: 0.35rem;
+    border-radius: var(--radius-md);
+    background: #fff;
+  }
+
+  .qr__card-title {
+    margin-top: 0.6rem;
+    font-family: var(--font-display);
+    font-size: 0.8125rem;
+    font-weight: 600;
+    color: var(--color-ink);
+    text-align: center;
+    letter-spacing: -0.015em;
+  }
+
+  .qr__card-sub {
+    margin-top: 0.1rem;
+    font-size: 0.6875rem;
+    color: var(--color-muted);
+    text-align: center;
+  }
+
+  .qr__card-scan {
+    display: none;
+  }
+
+  @keyframes qr-float {
+    0%,
+    100% {
+      transform: rotate(-4deg) translateY(0);
+    }
+    50% {
+      transform: rotate(-4deg) translateY(-7px);
+    }
+  }
+
+  .qr__phone {
+    position: relative;
+    z-index: 3;
+    width: 236px;
+    margin-left: 124px;
+    padding: 9px;
+    border-radius: 34px;
+    background: linear-gradient(160deg, #1b2c4c, #071431);
+    box-shadow:
+      0 40px 70px -30px rgb(4 13 34 / 0.65),
+      inset 0 1px 0 rgb(255 255 255 / 0.18);
+  }
+
+  .qr__phone-notch {
+    position: absolute;
+    top: 17px;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 62px;
+    height: 5px;
+    border-radius: 4px;
+    background: #26364f;
+    z-index: 2;
+  }
+
+  .qr__phone-screen {
+    border-radius: 27px;
+    overflow: hidden;
+    background: #f3f7fc;
+    min-height: 388px;
+    display: flex;
+    flex-direction: column;
+  }
+
+  .qr__chat-head {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    padding: 20px 12px 9px;
+    background: #0f2454;
+    color: #fff;
+  }
+
+  .qr__chat-avatar {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 28px;
+    height: 28px;
+    border-radius: 50%;
+    background: rgb(6 182 212 / 0.22);
+    color: var(--color-cyan-300);
+    font-size: 8px;
+    font-weight: 800;
+  }
+
+  .qr__chat-who {
+    display: grid;
+    flex: 1;
+    min-width: 0;
+  }
+
+  .qr__chat-who strong {
+    font-family: var(--font-display);
+    font-size: 10px;
+    font-weight: 600;
+  }
+
+  .qr__chat-who span {
+    font-size: 7.5px;
+    color: rgb(226 234 248 / 0.6);
+  }
+
+  .qr__chat-call {
+    display: inline-flex;
+    color: var(--color-cyan-300);
+  }
+
+  .qr__chat-body {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    padding: 12px 10px;
+    flex: 1;
+    background:
+      radial-gradient(circle at 20% 20%, rgb(29 78 216 / 0.06) 0 2px, transparent 2px),
+      #eef4fb;
+    background-size: 26px 26px, auto;
+  }
+
+  .qr__chat-day {
+    align-self: center;
+    padding: 2px 8px;
+    border-radius: 999px;
+    background: rgb(255 255 255 / 0.8);
+    font-size: 7px;
+    color: #7c8aa1;
+    font-weight: 700;
+  }
+
+  .qr__bubble {
+    max-width: 88%;
+    padding: 7px 9px;
+    border-radius: 10px;
+    font-size: 8.5px;
+    line-height: 1.5;
+    box-shadow: 0 1px 2px rgb(11 30 75 / 0.06);
+  }
+
+  .qr__bubble--out {
+    align-self: flex-end;
+    background: #d8f6fb;
+    color: #0b2a3a;
+    border-bottom-right-radius: 3px;
+  }
+
+  .qr__bubble--in {
+    align-self: flex-start;
+    background: #fff;
+    color: #334155;
+    border-bottom-left-radius: 3px;
+  }
+
+  .qr__bubble-meta {
+    display: block;
+    margin-top: 3px;
+    font-size: 6.5px;
+    color: #5b6b82;
+    text-align: right;
+  }
+
+  .qr__chat-actions {
+    margin-top: auto;
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 4px;
+    padding-top: 8px;
+    border-top: 1px solid rgb(11 30 75 / 0.08);
+  }
+
+  .qr__chat-actions span {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 3px;
+    padding: 5px 2px;
+    border-radius: 7px;
+    background: #fff;
+    border: 1px solid #dbe6f4;
+    font-size: 6.5px;
+    font-weight: 700;
+    color: #1d4ed8;
+  }
+
+  .qr__cost {
+    position: absolute;
+    left: 0;
+    bottom: 14%;
+    z-index: 4;
+    display: grid;
+    justify-items: center;
+    gap: 0.1rem;
+    padding: 0.55rem 0.9rem;
+    border-radius: var(--radius-md);
+    background: var(--color-navy-900);
+    color: #fff;
+    box-shadow: var(--shadow-lg);
+    transform: rotate(3deg);
+  }
+
+  .qr__cost-value {
+    font-family: var(--font-display);
+    font-size: 1.05rem;
+    font-weight: 600;
+    color: var(--color-gold);
+    letter-spacing: -0.03em;
+    line-height: 1.1;
+  }
+
+  .qr__cost-label {
+    font-size: 0.625rem;
+    color: rgb(226 234 248 / 0.6);
+    letter-spacing: 0.02em;
+  }
+
+  .qr__stage-caption {
+    position: absolute;
+    bottom: 0;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 100%;
+    text-align: center;
+    font-size: 0.6875rem;
+    color: var(--color-muted);
+  }
+
+  @media (max-width: 1040px) {
+    .qr__panel {
+      grid-template-columns: minmax(0, 1fr);
+    }
+
+    .qr__copy {
+      max-width: 42rem;
+    }
+
+    .qr__stage {
+      min-height: 470px;
+    }
+
+    .qr__card {
+      left: max(0px, calc(50% - 300px));
+    }
+
+    .qr__phone {
+      margin-left: 90px;
+    }
+
+    .qr__stage-caption {
+      white-space: normal;
+    }
+  }
+
+  @media (max-width: 560px) {
+    .qr__panel {
+      padding: var(--space-5) var(--space-4);
+      border-radius: var(--radius-xl);
+    }
+
+    .qr__stage {
+      display: block;
+      min-height: 700px;
+      transform: none;
+      margin-bottom: 0;
+    }
+
+    .qr__card {
+      left: 0;
+      top: 0;
+      width: 158px;
+      padding: 0.7rem;
+    }
+
+    .qr__phone {
+      position: absolute;
+      top: 260px;
+      left: 50%;
+      transform: translateX(-50%);
+      width: 220px;
+      margin-left: 0;
+    }
+
+    .qr__phone-screen {
+      min-height: 360px;
+    }
+
+    .qr__cost {
+      top: 6px;
+      right: 0;
+      bottom: auto;
+      left: auto;
+    }
+
+    .qr__foot :global(.btn) {
+      width: 100%;
+    }
+  }
+
+  @media (max-width: 380px) {
+    .qr__card {
+      width: 142px;
+    }
+
+    .qr__phone {
+      width: 208px;
+    }
+
+    .qr__cost {
+      padding: 0.45rem 0.65rem;
+    }
+
+    .qr__cost-value {
+      font-size: 0.95rem;
+    }
+
+    .qr__stage-caption {
+      font-size: 0.625rem;
+    }
+  }
+</style>

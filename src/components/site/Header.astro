@@ -1,0 +1,443 @@
+---
+import { getCollection } from 'astro:content';
+import SiteBrand from './SiteBrand.astro';
+import Button from '../ui/Button.astro';
+import { HEADER_NAV, LINKS, type NavLink } from '../../data/site';
+
+const posts = await getCollection('blog', ({ data }) => data.draft !== true);
+const blogHref = '/blog/';
+const navLinks: NavLink[] = posts.length
+  ? [...HEADER_NAV.slice(0, 4), { label: 'Blog', href: blogHref }, ...HEADER_NAV.slice(4)]
+  : HEADER_NAV;
+
+const currentPath = Astro.url.pathname.replace(/\/$/, '') || '/';
+const isActive = (link: NavLink): boolean => {
+  // Ana sayfa içi çapa bağlantıları (/#...) aktif durum gösteremez; hash
+  // sunucuda bilinmediğinden yanlış vurgulamaktan kaçınıyoruz.
+  if (link.href.startsWith('/#')) return false;
+  const target = link.href.replace(/\/$/, '');
+  return currentPath === target || currentPath.startsWith(`${target}/`);
+};
+---
+
+<header class="site-header" id="site-header">
+  <div class="container site-header__inner">
+    <SiteBrand width={32} />
+
+    <nav class="site-nav" aria-label="Ana menü" id="site-nav">
+      <ul class="site-nav__list">
+        {
+          navLinks.map((link) => (
+            <li>
+              <a
+                href={link.href}
+                class:list={['site-nav__link', isActive(link) && 'is-active']}
+                aria-current={isActive(link) ? 'page' : undefined}
+              >
+                {link.label}
+              </a>
+            </li>
+          ))
+        }
+      </ul>
+
+      <div class="site-nav__actions">
+        <a
+          class="site-nav__download"
+          href={LINKS.download}
+          target="_blank"
+          rel="noopener"
+          aria-label="İndir — Windows için Veresiye Pro kurulumu"
+        >
+          <svg
+            width="16"
+            height="16"
+            viewBox="0 0 24 24"
+            fill="none"
+            stroke="currentColor"
+            stroke-width="1.8"
+            stroke-linecap="round"
+            stroke-linejoin="round"
+            aria-hidden="true"
+          >
+            <path d="M12 3v12" />
+            <path d="m7.5 10.5 4.5 4.5 4.5-4.5" />
+            <path d="M4 17v2.5A1.5 1.5 0 0 0 5.5 21h13a1.5 1.5 0 0 0 1.5-1.5V17" />
+          </svg>
+          <span>İndir</span>
+        </a>
+        <Button variant="primary" href={LINKS.panelSignup} external>Premium Lisans</Button>
+      </div>
+
+      <div class="site-nav__promo">
+        <span class="site-nav__promo-kicker">Öne çıkan</span>
+        <p class="site-nav__promo-title">Bekleyen işlemler ana ekranda</p>
+        <p class="site-nav__promo-text">
+          Gecikmiş ve bugün vadesi gelen işlemler, program açılışında önünüzde listelenir.
+        </p>
+        <a class="site-nav__promo-link" href="/#bekleyen-islemler">Nasıl çalışır? →</a>
+      </div>
+
+      <p class="site-nav__meta">Windows 10 &amp; 11 · İnternetsiz çalışır · Ömür boyu veri erişimi</p>
+    </nav>
+
+    <button
+      type="button"
+      class="site-header__toggle"
+      aria-expanded="false"
+      aria-controls="site-nav"
+      id="menu-toggle"
+    >
+      <span class="visually-hidden">Menüyü aç/kapat</span>
+      <svg class="icon-open" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" aria-hidden="true">
+        <line x1="3.5" y1="7" x2="20.5" y2="7" />
+        <line x1="3.5" y1="12" x2="20.5" y2="12" />
+        <line x1="3.5" y1="17" x2="20.5" y2="17" />
+      </svg>
+      <svg class="icon-close" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" aria-hidden="true">
+        <line x1="6" y1="6" x2="18" y2="18" />
+        <line x1="18" y1="6" x2="6" y2="18" />
+      </svg>
+    </button>
+  </div>
+</header>
+
+<style>
+  .site-header {
+    position: sticky;
+    top: 0;
+    z-index: 60;
+    height: var(--header-height);
+    background: rgb(255 255 255 / 0.88);
+    backdrop-filter: blur(14px) saturate(140%);
+    border-bottom: 1px solid rgb(11 30 75 / 0.07);
+    transition: box-shadow var(--duration-base) var(--ease-out);
+  }
+
+  .site-header.is-scrolled {
+    box-shadow: 0 12px 32px -24px rgb(11 30 75 / 0.45);
+  }
+
+  .site-header__inner {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: var(--space-4);
+    height: 100%;
+  }
+
+  .site-nav {
+    display: flex;
+    align-items: center;
+    gap: var(--space-6);
+    height: 100%;
+  }
+
+  .site-nav__list {
+    display: flex;
+    align-items: center;
+    gap: var(--space-5);
+    list-style: none;
+    margin: 0;
+    padding: 0;
+  }
+
+  .site-nav__link {
+    position: relative;
+    display: inline-flex;
+    align-items: center;
+    height: var(--header-height);
+    color: var(--color-text);
+    text-decoration: none;
+    font-size: var(--text-sm);
+    font-weight: 650;
+    letter-spacing: -0.005em;
+    white-space: nowrap;
+    transition: color var(--duration-fast) var(--ease-out);
+  }
+
+  .site-nav__link::after {
+    content: '';
+    position: absolute;
+    left: 0;
+    right: 0;
+    bottom: 16px;
+    height: 2px;
+    border-radius: 2px;
+    background: linear-gradient(90deg, var(--color-primary), var(--color-accent));
+    transform: scaleX(0);
+    transform-origin: left;
+    transition: transform var(--duration-base) var(--ease-out);
+  }
+
+  .site-nav__link:hover,
+  .site-nav__link.is-active {
+    color: var(--color-primary);
+  }
+
+  .site-nav__link:hover::after,
+  .site-nav__link.is-active::after {
+    transform: scaleX(1);
+  }
+
+  .site-nav__actions {
+    display: flex;
+    align-items: center;
+    gap: var(--space-4);
+  }
+
+  .site-nav__download {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.4rem;
+    min-height: 44px;
+    padding-inline: 0.3rem;
+    color: var(--color-ink);
+    font-size: var(--text-sm);
+    font-weight: 650;
+    text-decoration: none;
+    white-space: nowrap;
+    transition: color var(--duration-fast) var(--ease-out);
+  }
+
+  .site-nav__download:hover {
+    color: var(--color-primary);
+  }
+
+  .site-nav__meta {
+    display: none;
+  }
+
+  .site-nav__promo {
+    display: none;
+  }
+
+  .site-header__toggle {
+    display: none;
+    align-items: center;
+    justify-content: center;
+    width: 44px;
+    height: 44px;
+    background: none;
+    border: 1px solid transparent;
+    border-radius: var(--radius-md);
+    color: var(--color-ink);
+    cursor: pointer;
+  }
+
+  .site-header__toggle:hover {
+    background: var(--color-surface-alt);
+  }
+
+  .site-header__toggle .icon-close {
+    display: none;
+  }
+
+  @media (max-width: 1080px) {
+    .site-nav__list {
+      gap: var(--space-4);
+    }
+
+    .site-nav__download span {
+      display: none;
+    }
+  }
+
+  @media (max-width: 1020px) {
+    .site-nav {
+      position: absolute;
+      top: 100%;
+      left: 0;
+      right: 0;
+      flex-direction: column;
+      align-items: stretch;
+      gap: var(--space-4);
+      height: auto;
+      min-height: calc(100vh - var(--header-height));
+      min-height: calc(100dvh - var(--header-height));
+      max-height: calc(100dvh - var(--header-height));
+      overflow-y: auto;
+      background: var(--color-surface);
+      border-bottom: 1px solid var(--color-border);
+      box-shadow: var(--shadow-lg);
+      padding: var(--space-5);
+      display: none;
+    }
+
+    .site-header.menu-open .site-nav {
+      display: flex;
+      animation: menu-in 220ms var(--ease-out);
+    }
+
+    @keyframes menu-in {
+      from {
+        opacity: 0;
+        transform: translateY(-6px);
+      }
+      to {
+        opacity: 1;
+        transform: none;
+      }
+    }
+
+    .site-nav__list {
+      flex-direction: column;
+      align-items: stretch;
+      gap: 0;
+    }
+
+    .site-nav__list li + li {
+      border-top: 1px solid var(--color-border);
+    }
+
+    .site-nav__link {
+      height: auto;
+      padding: 0.85rem 0.2rem;
+      font-size: var(--text-md);
+    }
+
+    .site-nav__link::after {
+      bottom: 0.5rem;
+      width: 28px;
+      right: auto;
+    }
+
+    .site-nav__actions {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: var(--space-3);
+    }
+
+    .site-nav__download {
+      justify-content: center;
+      border: 1px solid var(--color-border-strong);
+      border-radius: var(--radius-pill);
+      padding-inline: 1rem;
+    }
+
+    .site-nav__download span {
+      display: inline;
+    }
+
+    .site-nav__meta {
+      display: block;
+      margin-top: auto;
+      padding-top: var(--space-3);
+      border-top: 1px solid var(--color-border);
+      font-size: var(--text-xs);
+      color: var(--color-muted);
+    }
+
+    .site-nav__promo {
+      display: block;
+      margin-top: var(--space-2);
+      padding: var(--space-4);
+      border: 1px solid var(--color-border);
+      border-radius: var(--radius-lg);
+      background:
+        radial-gradient(220px 120px at 100% 0%, rgb(6 182 212 / 0.1), transparent 70%),
+        var(--color-surface-alt);
+    }
+
+    .site-nav__promo-kicker {
+      font-size: 0.6875rem;
+      font-weight: 800;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      color: var(--color-primary);
+    }
+
+    .site-nav__promo-title {
+      margin-top: 0.25rem;
+      font-family: var(--font-display);
+      font-size: 0.9375rem;
+      font-weight: 600;
+      color: var(--color-ink);
+      letter-spacing: -0.015em;
+      line-height: 1.35;
+    }
+
+    .site-nav__promo-text {
+      margin-top: 0.3rem;
+      font-size: var(--text-xs);
+      line-height: 1.55;
+      color: var(--color-muted);
+    }
+
+    .site-nav__promo-link {
+      display: inline-block;
+      margin-top: 0.55rem;
+      font-size: var(--text-xs);
+      font-weight: 700;
+      color: var(--color-primary);
+      text-decoration: none;
+    }
+
+    .site-nav__promo-link:hover {
+      text-decoration: underline;
+      text-underline-offset: 3px;
+    }
+
+    .site-header__toggle {
+      display: inline-flex;
+    }
+
+    .site-header.menu-open .site-header__toggle .icon-open {
+      display: none;
+    }
+
+    .site-header.menu-open .site-header__toggle .icon-close {
+      display: block;
+    }
+
+    :global(body.menu-open) {
+      overflow: hidden;
+    }
+  }
+
+  @media (max-width: 480px) {
+    .site-nav__actions {
+      grid-template-columns: 1fr;
+    }
+  }
+</style>
+
+<script is:inline>
+  const header = document.getElementById('site-header');
+  const toggle = document.getElementById('menu-toggle');
+  const nav = document.getElementById('site-nav');
+
+  function closeMenu() {
+    if (!header || !toggle) return;
+    header.classList.remove('menu-open');
+    document.body.classList.remove('menu-open');
+    toggle.setAttribute('aria-expanded', 'false');
+  }
+
+  if (header && toggle) {
+    toggle.addEventListener('click', () => {
+      const open = header.classList.toggle('menu-open');
+      document.body.classList.toggle('menu-open', open);
+      toggle.setAttribute('aria-expanded', String(open));
+    });
+
+    document.addEventListener('keydown', (event) => {
+      if (event.key === 'Escape' && header.classList.contains('menu-open')) {
+        closeMenu();
+        toggle.focus();
+      }
+    });
+
+    nav?.addEventListener('click', (event) => {
+      if (event.target instanceof Element && event.target.closest('a')) closeMenu();
+    });
+
+    window.matchMedia('(min-width: 1021px)').addEventListener('change', (event) => {
+      if (event.matches) closeMenu();
+    });
+
+    const onScroll = () => header.classList.toggle('is-scrolled', window.scrollY > 8);
+    onScroll();
+    window.addEventListener('scroll', onScroll, { passive: true });
+  }
+</script>

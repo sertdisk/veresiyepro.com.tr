@@ -1,0 +1,147 @@
+---
+import type { CollectionEntry } from 'astro:content';
+import { formatMonthYear } from '../../utils/format';
+
+interface Props {
+  testimonial: CollectionEntry<'testimonials'>;
+}
+
+const { testimonial } = Astro.props;
+const { name, business, city, quote, rating, since } = testimonial.data;
+
+const initials = name
+  .split(' ')
+  .map((part) => part[0])
+  .slice(0, 2)
+  .join('')
+  .toLocaleUpperCase('tr-TR');
+---
+
+<figure class="card testimonial-card">
+  <div class="testimonial-card__top">
+    <div class="testimonial-card__stars" role="img" aria-label={`Puan: ${rating}/5`}>
+      {
+        Array.from({ length: 5 }, (_, i) => (
+          <svg
+            width="15"
+            height="15"
+            viewBox="0 0 24 24"
+            fill={i < rating ? 'currentColor' : 'none'}
+            stroke="currentColor"
+            stroke-width="1.5"
+            aria-hidden="true"
+          >
+            <polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2" />
+          </svg>
+        ))
+      }
+    </div>
+    <span class="testimonial-card__mark" aria-hidden="true">”</span>
+  </div>
+
+  <blockquote>{quote}</blockquote>
+
+  <figcaption>
+    <span class="testimonial-card__avatar" aria-hidden="true">{initials}</span>
+    <span class="testimonial-card__who">
+      <strong>{name}</strong>
+      <span>{business} · {city}</span>
+      {since && <span class="testimonial-card__since">Kullanıcı — {formatMonthYear(since)}</span>}
+    </span>
+  </figcaption>
+</figure>
+
+<style>
+  .testimonial-card {
+    position: relative;
+    gap: var(--space-4);
+    padding: var(--space-5) var(--space-5) var(--space-4);
+    overflow: hidden;
+  }
+
+  .testimonial-card::before {
+    content: '';
+    position: absolute;
+    inset: 0 auto auto 0;
+    width: 100%;
+    height: 3px;
+    background: linear-gradient(90deg, var(--color-primary), var(--color-accent));
+    opacity: 0.7;
+  }
+
+  .testimonial-card__top {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: var(--space-3);
+  }
+
+  .testimonial-card__stars {
+    color: var(--color-gold);
+    display: flex;
+    gap: 3px;
+  }
+
+  .testimonial-card__mark {
+    font-family: var(--font-display);
+    font-size: 2.6rem;
+    line-height: 0.6;
+    color: rgb(29 78 216 / 0.18);
+  }
+
+  .testimonial-card blockquote {
+    margin: 0;
+    color: var(--color-text);
+    font-size: var(--text-md);
+    line-height: 1.7;
+    flex: 1;
+  }
+
+  .testimonial-card figcaption {
+    display: flex;
+    align-items: center;
+    gap: var(--space-3);
+    padding-top: var(--space-4);
+    border-top: 1px solid var(--color-border);
+    font-size: var(--text-sm);
+  }
+
+  .testimonial-card__avatar {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 40px;
+    height: 40px;
+    flex: none;
+    border-radius: 50%;
+    background: linear-gradient(140deg, var(--color-navy-800), var(--color-navy-950));
+    color: var(--color-cyan-300);
+    font-family: var(--font-display);
+    font-size: var(--text-xs);
+    font-weight: 600;
+    letter-spacing: 0.04em;
+  }
+
+  .testimonial-card__who {
+    display: grid;
+    gap: 0.1rem;
+    min-width: 0;
+  }
+
+  .testimonial-card__who strong {
+    color: var(--color-ink);
+    font-family: var(--font-display);
+    font-weight: 600;
+    font-size: var(--text-sm);
+  }
+
+  .testimonial-card__who span {
+    color: var(--color-muted);
+    font-size: var(--text-xs);
+    line-height: 1.4;
+  }
+
+  .testimonial-card__since {
+    color: rgb(91 107 130 / 0.85);
+  }
+</style>

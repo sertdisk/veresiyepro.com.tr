@@ -1,0 +1,17 @@
+---
+interface Props {
+  width?: number;
+  class?: string;
+}
+
+const { width = 30, class: className } = Astro.props;
+---
+
+<img
+  src="/images/general/logo.svg"
+  alt="Veresiye Pro logosu"
+  width={width}
+  height={width}
+  class={className}
+  decoding="async"
+/>

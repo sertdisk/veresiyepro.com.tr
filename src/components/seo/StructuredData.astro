@@ -1,0 +1,173 @@
+---
+import { SITE, LINKS } from '../../data/site';
+import { absoluteUrl, type StructuredDataInput } from '../../utils/seo';
+
+export type Props = StructuredDataInput;
+
+const { softwareApplication = false, faq, breadcrumbs, article, webPage } = Astro.props;
+
+const site = Astro.site ?? new URL(SITE.url);
+const base = site.toString().replace(/\/+$/, '');
+const currentUrl = new URL(Astro.url.pathname, site).toString();
+
+const orgId = `${base}/#organization`;
+const websiteId = `${base}/#website`;
+
+const organization = {
+  '@context': 'https://schema.org',
+  '@type': 'Organization',
+  '@id': orgId,
+  name: SITE.name,
+  url: `${base}/`,
+  logo: absoluteUrl('/images/general/logo.png', site),
+  description:
+    'Veresiye Pro, küçük işletmeler ve esnaflar için Windows 10 ve Windows 11 üzerinde çalışan offline-first veresiye ve cari hesap takip yazılımı geliştirir.',
+};
+
+const website = {
+  '@context': 'https://schema.org',
+  '@type': 'WebSite',
+  '@id': websiteId,
+  url: `${base}/`,
+  name: `${SITE.name} — Veresiye Programı`,
+  description: SITE.description,
+  publisher: { '@id': orgId },
+  inLanguage: 'tr-TR',
+};
+
+const software = softwareApplication
+  ? {
+      '@context': 'https://schema.org',
+      '@type': 'SoftwareApplication',
+      '@id': `${base}/#software`,
+      name: `${SITE.name} Premium — Windows Veresiye Programı`,
+      operatingSystem: 'Windows 10, Windows 11',
+      applicationCategory: 'BusinessApplication',
+      applicationSubCategory: 'Veresiye ve Cari Hesap Yönetimi',
+      description:
+        'Küçük işletmeler ve esnaflar için akıllı bekleyen işlemler sistemine sahip offline-first Windows veresiye programı. Vadesiz, vadeli, taksitli veresiye takibi, çift yönlü cari hesap, QR ile WhatsApp/SMS/Arama iletişimi, senet üretimi ve 5 boyutlu finansal radar.',
+      url: `${base}/`,
+      downloadUrl: LINKS.download,
+      inLanguage: 'tr-TR',
+      featureList: [
+        'Akıllı bekleyen işlemler: geciken ve bugün vadesi gelen işlemler ana ekranda önceliklendirilir',
+        'Vadesiz, vadeli ve taksitli veresiye takibi',
+        'Tekrarlayan veresiye işlemleri (aidat ve fatura)',
+        'Limitsiz müşteri, tedarikçi ve personel carisi; çift yönlü bakiye ve mahsuplaşma',
+        'Nakit, POS, kredi kartı, EFT/havale ve çek ile tahsilat ve ödeme kaydı',
+        'Alınan/verilen çek, senet ve satış sözleşmesi dökümleri',
+        'QR kod ile WhatsApp mesajı, SMS veya arama başlatma',
+        '5 boyutlu finansal radar: yüksek bakiye, hızlı artış, geciken, hareketsiz ve gelecek nakit akışı',
+        'Otomatik yerel yedekleme ve şifreli bulut yedeği',
+        'İnternetsiz (offline-first) çalışma ve ömür boyu veri erişimi',
+      ],
+      publisher: { '@id': orgId },
+      offers: [
+        {
+          '@type': 'Offer',
+          name: 'Veresiye Pro Premium Lisans (ilk yıl)',
+          price: '5000',
+          priceCurrency: 'TRY',
+          url: LINKS.panelSignup,
+          description: 'İlk yıl premium lisans: 5.000₺',
+        },
+        {
+          '@type': 'Offer',
+          name: 'Veresiye Pro Premium Lisans (yenileme)',
+          price: '3000',
+          priceCurrency: 'TRY',
+          url: LINKS.panelSignup,
+          description: 'Yenileme: %40 indirimle yıllık 3.000₺',
+        },
+      ],
+    }
+  : null;
+
+const faqSchema =
+  faq && faq.length > 0
+    ? {
+        '@context': 'https://schema.org',
+        '@type': 'FAQPage',
+        '@id': `${currentUrl}#faq`,
+        mainEntity: faq.map((item) => ({
+          '@type': 'Question',
+          name: item.question,
+          acceptedAnswer: { '@type': 'Answer', text: item.answer },
+        })),
+      }
+    : null;
+
+const breadcrumbSchema =
+  breadcrumbs && breadcrumbs.length > 0
+    ? {
+        '@context': 'https://schema.org',
+        '@type': 'BreadcrumbList',
+        '@id': `${currentUrl}#breadcrumb`,
+        itemListElement: breadcrumbs.map((crumb, index) => ({
+          '@type': 'ListItem',
+          position: index + 1,
+          name: crumb.name,
+          item: absoluteUrl(crumb.url ?? Astro.url.pathname, site),
+        })),
+      }
+    : null;
+
+const toIso = (value: Date | string): string =>
+  value instanceof Date ? value.toISOString() : new Date(value).toISOString();
+
+const articleSchema = article
+  ? {
+      '@context': 'https://schema.org',
+      '@type': article.type,
+      '@id': `${absoluteUrl(article.url ?? Astro.url.pathname, site)}#article`,
+      headline: article.headline,
+      description: article.description,
+      datePublished: toIso(article.datePublished),
+      dateModified: toIso(article.dateModified ?? article.datePublished),
+      author: { '@type': 'Organization', name: article.author ?? SITE.name, '@id': orgId },
+      publisher: { '@id': orgId },
+      image: absoluteUrl(article.image ?? SITE.defaultImage, site),
+      mainEntityOfPage: {
+        '@type': 'WebPage',
+        '@id': absoluteUrl(article.url ?? Astro.url.pathname, site),
+      },
+      inLanguage: 'tr-TR',
+      isPartOf: { '@id': websiteId },
+    }
+  : null;
+
+const webPageSchema =
+  webPage && !article
+    ? {
+        '@context': 'https://schema.org',
+        '@type': 'WebPage',
+        '@id': `${absoluteUrl(webPage.url ?? Astro.url.pathname, site)}#webpage`,
+        name: webPage.name,
+        description: webPage.description,
+        url: absoluteUrl(webPage.url ?? Astro.url.pathname, site),
+        ...(webPage.dateModified ? { dateModified: toIso(webPage.dateModified) } : {}),
+        inLanguage: 'tr-TR',
+        isPartOf: { '@id': websiteId },
+        publisher: { '@id': orgId },
+      }
+    : null;
+
+const schemas = [
+  organization,
+  website,
+  software,
+  breadcrumbSchema,
+  articleSchema,
+  webPageSchema,
+  faqSchema,
+].filter(Boolean);
+
+const escapeJson = (value: unknown): string =>
+  JSON.stringify(value).replace(/</g, '\\u003c').replace(/\u2028/g, '\\u2028').replace(/\u2029/g, '\\u2029');
+---
+
+{
+  schemas.map((schema) => (
+    <script type="application/ld+json" set:html={escapeJson(schema)} />
+  ))
+}

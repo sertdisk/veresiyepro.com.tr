@@ -1,0 +1,301 @@
+---
+import BaseLayout from './BaseLayout.astro';
+import PageHero from '../components/ui/PageHero.astro';
+import Breadcrumbs from '../components/ui/Breadcrumbs.astro';
+import Prose from '../components/ui/Prose.astro';
+import Toc from '../components/ui/Toc.astro';
+import HelpSidebar from '../components/content/HelpSidebar.astro';
+import Badge from '../components/ui/Badge.astro';
+import Icon from '../components/marketing/Icon.astro';
+import type { CollectionEntry } from 'astro:content';
+import { formatDateShort } from '../utils/format';
+import { toBreadcrumbs } from '../utils/seo';
+
+interface Props {
+  title: string;
+  description?: string;
+  categoryLabel: string;
+  updated: Date;
+  readingTime: number;
+  keywords: string[];
+  crumbs: { label: string; href?: string }[];
+  headings: { depth: number; slug: string; text: string }[];
+  articles: CollectionEntry<'help'>[];
+  currentId: string;
+  prevArticle: CollectionEntry<'help'> | null;
+  nextArticle: CollectionEntry<'help'> | null;
+  image?: string;
+  imageAlt?: string;
+  canonicalURL?: string;
+  noindex?: boolean;
+}
+
+const {
+  title,
+  description,
+  categoryLabel,
+  updated,
+  readingTime,
+  keywords,
+  crumbs,
+  headings,
+  articles,
+  currentId,
+  prevArticle,
+  nextArticle,
+  image,
+  imageAlt,
+  canonicalURL,
+  noindex = false,
+} = Astro.props;
+
+const breadcrumbs = toBreadcrumbs(crumbs);
+
+// Marka eki yalnızca title 70 karakteri aşmıyorsa eklenir; uzun makale
+// başlıkları kendi başına benzersiz ve açıklayıcıdır.
+const brandedTitle = `${title} | Veresiye Pro`;
+const seoTitle = brandedTitle.length <= 70 ? brandedTitle : title;
+---
+
+<BaseLayout
+  title={seoTitle}
+  description={description}
+  type="article"
+  updatedAt={updated}
+  author="Veresiye Pro"
+  canonical={canonicalURL}
+  noindex={noindex}
+  image={image}
+  imageAlt={imageAlt}
+  structuredData={{
+    breadcrumbs,
+    article: {
+      type: 'TechArticle',
+      headline: title,
+      description,
+      datePublished: updated,
+      dateModified: updated,
+      author: 'Veresiye Pro',
+      image,
+    },
+  }}
+>
+  <PageHero
+    eyebrow={categoryLabel}
+    title={title}
+    description={description}
+    meta={`Son güncelleme: ${formatDateShort(updated)} · ${readingTime} dk okuma`}
+  />
+
+  <div class="container section help-shell">
+    <Breadcrumbs items={crumbs} />
+
+    <div class="help-shell__layout">
+      <div class="help-shell__sidebar">
+        <HelpSidebar articles={articles} currentId={currentId} />
+      </div>
+
+      <article class="help-shell__main">
+        <div class="help-shell__meta">
+          {
+            keywords.length > 0 && (
+              <p class="help-shell__keywords">
+                {keywords.map((kw) => (
+                  <Badge tone="neutral">{kw}</Badge>
+                ))}
+              </p>
+            )
+          }
+          <p class="help-shell__reading">
+            <Icon name="clock" size={14} />
+            {readingTime} dk okuma
+          </p>
+        </div>
+
+        <div class="help-shell__updated">
+          <time datetime={updated.toISOString()}>Son güncelleme: {formatDateShort(updated)}</time>
+        </div>
+
+        <Prose>
+          <slot />
+        </Prose>
+
+        <nav class="help-shell__nav" aria-label="Makale navigasyonu">
+          {
+            prevArticle ? (
+              <a href={`/yardim/${prevArticle.id}/`} class="help-shell__nav-link help-shell__nav-link--prev">
+                <span class="help-shell__nav-dir">Önceki makale</span>
+                <span class="help-shell__nav-title">{prevArticle.data.title}</span>
+              </a>
+            ) : (
+              <span />
+            )
+          }
+          {
+            nextArticle ? (
+              <a href={`/yardim/${nextArticle.id}/`} class="help-shell__nav-link help-shell__nav-link--next">
+                <span class="help-shell__nav-dir">Sonraki makale</span>
+                <span class="help-shell__nav-title">{nextArticle.data.title}</span>
+              </a>
+            ) : (
+              <span />
+            )
+          }
+        </nav>
+
+        <a href="/yardim/" class="help-shell__back">← Tüm yardım konularına dön</a>
+      </article>
+
+      <aside class="help-shell__toc">
+        <Toc headings={headings} />
+      </aside>
+    </div>
+  </div>
+</BaseLayout>
+
+<style>
+  .help-shell__layout {
+    display: grid;
+    grid-template-columns: 250px minmax(0, 1fr) 220px;
+    gap: var(--space-7);
+    align-items: start;
+  }
+
+  .help-shell__sidebar {
+    position: sticky;
+    top: calc(var(--header-height) + 1.5rem);
+    border: 1px solid var(--color-border);
+    border-radius: var(--radius-lg);
+    background: var(--color-surface-alt);
+    padding: var(--space-4) var(--space-4) var(--space-3);
+  }
+
+  .help-shell__main {
+    min-width: 0;
+  }
+
+  .help-shell__meta {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    justify-content: space-between;
+    gap: var(--space-3);
+    margin-bottom: var(--space-3);
+  }
+
+  .help-shell__keywords {
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--space-2);
+  }
+
+  .help-shell__reading {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.35rem;
+    font-size: var(--text-xs);
+    color: var(--color-muted);
+  }
+
+  .help-shell__updated {
+    font-size: var(--text-xs);
+    color: var(--color-muted);
+    margin-bottom: var(--space-5);
+    padding-bottom: var(--space-4);
+    border-bottom: 1px solid var(--color-border);
+  }
+
+  .help-shell__nav {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: var(--space-3);
+    margin-top: var(--space-8);
+    padding-top: var(--space-5);
+    border-top: 1px solid var(--color-border);
+  }
+
+  .help-shell__nav-link {
+    display: grid;
+    gap: 0.25rem;
+    padding: var(--space-4);
+    border: 1px solid var(--color-border);
+    border-radius: var(--radius-md);
+    background: var(--color-surface-alt);
+    text-decoration: none;
+    transition:
+      border-color var(--duration-fast) var(--ease-out),
+      background-color var(--duration-fast) var(--ease-out),
+      transform var(--duration-fast) var(--ease-out);
+  }
+
+  .help-shell__nav-link:hover {
+    border-color: var(--color-primary);
+    background: var(--color-surface);
+    transform: translateY(-2px);
+  }
+
+  .help-shell__nav-link--next {
+    grid-column: 2;
+    text-align: right;
+  }
+
+  .help-shell__nav-dir {
+    font-size: var(--text-xs);
+    color: var(--color-muted);
+    text-transform: uppercase;
+    letter-spacing: 0.06em;
+    font-weight: 700;
+  }
+
+  .help-shell__nav-title {
+    font-family: var(--font-display);
+    font-weight: 600;
+    font-size: var(--text-sm);
+    color: var(--color-ink);
+    line-height: 1.4;
+  }
+
+  .help-shell__back {
+    display: inline-block;
+    margin-top: var(--space-5);
+    font-size: var(--text-sm);
+    font-weight: 700;
+    text-decoration: none;
+  }
+
+  .help-shell__back:hover {
+    text-decoration: underline;
+  }
+
+  @media (max-width: 1180px) {
+    .help-shell__layout {
+      grid-template-columns: 250px minmax(0, 1fr);
+    }
+
+    .help-shell__toc {
+      display: none;
+    }
+  }
+
+  @media (max-width: 960px) {
+    .help-shell__layout {
+      grid-template-columns: 1fr;
+    }
+
+    .help-shell__sidebar {
+      position: static;
+      border: 0;
+      background: none;
+      padding: 0;
+    }
+
+    .help-shell__nav {
+      grid-template-columns: 1fr;
+    }
+
+    .help-shell__nav-link--next {
+      grid-column: auto;
+      text-align: left;
+    }
+  }
+</style>

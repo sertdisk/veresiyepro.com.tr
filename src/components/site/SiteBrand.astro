@@ -1,0 +1,67 @@
+---
+import Logo from './Logo.astro';
+
+interface Props {
+  width?: number;
+  words?: boolean;
+}
+
+const { width = 30, words = true } = Astro.props;
+---
+
+<a href="/" class="logo" aria-label="Veresiye Pro veresiye programı ana sayfa">
+  <span class="logo__mark">
+    <Logo width={width} />
+  </span>
+  {
+    words && (
+      <span class="logo__words">
+        Veresiye{' '}<span class="logo__pro">Pro</span>
+      </span>
+    )
+  }
+</a>
+
+<style>
+  .logo {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.6rem;
+    min-height: 44px;
+    text-decoration: none;
+    color: var(--color-ink);
+    font-family: var(--font-display);
+    font-weight: 700;
+    font-size: 1.06rem;
+    letter-spacing: -0.035em;
+    line-height: 1;
+  }
+
+  .logo__mark {
+    display: inline-flex;
+    filter: drop-shadow(0 2px 5px rgb(11 30 75 / 0.18));
+  }
+
+  .logo__words {
+    display: inline-flex;
+    align-items: baseline;
+    white-space: nowrap;
+  }
+
+  .logo__pro {
+    color: var(--color-primary);
+    margin-left: 0.12em;
+    letter-spacing: -0.03em;
+  }
+
+  .logo__pro::after {
+    content: '';
+    display: inline-block;
+    width: 4px;
+    height: 4px;
+    margin-left: 2px;
+    border-radius: 50%;
+    background: var(--color-accent);
+    vertical-align: 0.35em;
+  }
+</style>

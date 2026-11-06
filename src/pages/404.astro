@@ -1,0 +1,91 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import Button from '../components/ui/Button.astro';
+import { HELP_CATEGORIES } from '../utils/format';
+
+const categories = Object.values(HELP_CATEGORIES);
+---
+
+<BaseLayout
+  title="Sayfa Bulunamadı (404)"
+  description="Aradığınız sayfa bulunamadı. Veresiye Pro ana sayfası, yardım merkezi ve sürüm notlarından devam edebilirsiniz."
+  noindex
+  canonical={false}
+>
+  <section class="section notfound">
+    <div class="container">
+      <p class="notfound__code" aria-hidden="true">404</p>
+      <h1>Aradığınız sayfa bulunamadı</h1>
+      <p>
+        Ada kalmış bir veresiye gibi bir taraftayız — ama doğru adrese gitmeye hazırız.
+        Aşağıdaki bağlantılardan devam edebilir veya <a href="/yardim/">yardım merkezinden</a>
+        aradığınız konuyla ilgili makaleye ulaşabilirsiniz.
+      </p>
+      <div class="hero__actions notfound__actions">
+        <Button variant="primary" href="/">Ana Sayfa</Button>
+        <Button variant="secondary" href="/yardim/">Yardım Merkezi</Button>
+        <Button variant="secondary" href="/surum-notlari/">Sürüm Notları</Button>
+      </div>
+      <p class="notfound__hint">
+        Popüler yardım konuları:
+        {
+          categories.map((c) => <span class="notfound__chip">{c}</span>)
+        }
+      </p>
+    </div>
+  </section>
+</BaseLayout>
+
+<style>
+  .notfound {
+    text-align: center;
+    padding-block: var(--space-9);
+  }
+
+  .notfound p.notfound__code {
+    font-size: clamp(4rem, 2rem + 8vw, 7rem);
+    font-weight: 800;
+    color: var(--color-primary);
+    opacity: 0.7;
+    line-height: 1;
+  }
+
+  .notfound h1 {
+    color: var(--color-ink);
+    font-size: var(--text-h1);
+    margin-block: var(--space-2) var(--space-3);
+  }
+
+  .notfound p {
+    max-width: 60ch;
+    margin-inline: auto;
+    color: var(--color-muted);
+  }
+
+  .notfound a {
+    color: var(--color-primary);
+  }
+
+  .notfound__actions {
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--space-3);
+    justify-content: center;
+    margin-top: var(--space-6);
+  }
+
+  .notfound__hint {
+    margin-top: var(--space-7);
+    font-size: var(--text-sm);
+  }
+
+  .notfound__chip {
+    display: inline-block;
+    margin-inline: 0.2rem;
+    padding: 0.15rem 0.6rem;
+    background: var(--color-surface-alt);
+    border: 1px solid var(--color-border);
+    border-radius: var(--radius-pill);
+    font-size: var(--text-xs);
+  }
+</style>

@@ -1,0 +1,90 @@
+---
+interface Props {
+  eyebrow?: string;
+  title: string;
+  description?: string;
+  align?: 'left' | 'center';
+  id?: string;
+  index?: string;
+}
+
+const { eyebrow, title, description, align = 'left', id, index } = Astro.props;
+---
+
+<div class:list={['section-heading', `section-heading--${align}`]}>
+  {
+    (eyebrow || index) && (
+      <p class="section-heading__eyebrow">
+        {index && <span class="section-heading__index">{index}</span>}
+        {index && <span class="section-heading__rule" aria-hidden="true" />}
+        {eyebrow && <span class="section-heading__label">{eyebrow}</span>}
+      </p>
+    )
+  }
+  <h2 class="section-heading__title" id={id}>{title}</h2>
+  {description && <p class="section-heading__description">{description}</p>}
+</div>
+
+<style>
+  .section-heading {
+    margin-bottom: var(--space-6);
+    max-width: 62rem;
+  }
+
+  .section-heading--center {
+    text-align: center;
+    margin-inline: auto;
+  }
+
+  .section-heading--center .section-heading__eyebrow {
+    justify-content: center;
+  }
+
+  .section-heading--center .section-heading__description {
+    margin-inline: auto;
+  }
+
+  .section-heading__eyebrow {
+    display: flex;
+    align-items: center;
+    gap: 0.6rem;
+    margin-bottom: 0.9rem;
+    font-size: var(--text-xs);
+    font-weight: 700;
+    letter-spacing: 0.11em;
+    text-transform: uppercase;
+    color: var(--color-muted);
+  }
+
+  .section-heading__index {
+    font-family: var(--font-display);
+    font-weight: 600;
+    color: var(--color-accent);
+    letter-spacing: 0.04em;
+  }
+
+  .section-heading__rule {
+    width: 26px;
+    height: 1px;
+    background: linear-gradient(90deg, var(--color-accent), transparent);
+  }
+
+  .section-heading__label {
+    color: var(--color-primary);
+  }
+
+  .section-heading__title {
+    font-size: var(--text-h2);
+    line-height: 1.18;
+    color: var(--color-ink);
+    text-wrap: balance;
+  }
+
+  .section-heading__description {
+    max-width: 66ch;
+    color: var(--color-muted);
+    margin-top: 0.75rem;
+    font-size: var(--text-lg);
+    line-height: 1.65;
+  }
+</style>
