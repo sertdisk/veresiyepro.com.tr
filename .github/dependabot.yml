@@ -8,6 +8,11 @@ updates:
       time: '06:00'
     target-branch: main
     open-pull-requests-limit: 5
+    # @astrojs/check 0.9.x henüz TypeScript 7 ile uyumlu değil (peer: ^5 || ^6).
+    # Astro/check uyumluluğu güncellenince bu kural kaldırılmalı.
+    ignore:
+      - dependency-name: 'typescript'
+        versions: ['>=7.0.0']
     groups:
       astro:
         patterns:
