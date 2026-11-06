@@ -155,6 +155,11 @@ main {
   flex: 1 0 auto;
 }
 
+/* Atlama bağlantısı odağı ana içeriğe taşır; bölge için halka gerekmez. */
+main:focus {
+  outline: none;
+}
+
 h1,
 h2,
 h3,
